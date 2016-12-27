@@ -17,5 +17,5 @@ set(SOURCE_FILES src/coordinates/Point.cpp src/coordinates/Point.h src/coordinat
         src/managment/MainFlow.h src/tripOperations/Passenger.cpp src/tripOperations/Passenger.h
         src/taxi/Cab.cpp src/taxi/Cab.h src/enum/MartialStatuesFactory.h src/enum/ColorFactory.h
         src/enum/CarManufactureFactory.h src/managment/ProperInput.cpp src/managment/ProperInput.h
-        main.cpp)
+        main.cpp src/server/Client.cpp src/server/Server.cpp src/sockets/Socket.cpp src/sockets/Socket.h src/sockets/Udp.cpp src/sockets/Udp.h)
 add_executable(ex4AP ${SOURCE_FILES})
