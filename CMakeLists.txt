@@ -3,6 +3,10 @@ project(ex4AP)
 
 set(CMAKE_CXX_STANDARD 11)
 
+set(BOOST_ROOT CACHE PATH "/usr/include/boost/")
+find_package(Boost 1.58.0 COMPONENTS serialization system)
+include_directories(${Boost_INCLUDE_DIR})
+
 set(SOURCE_FILES
         server/coordinates/Point.cpp
         server/coordinates/Point.h
@@ -52,20 +56,19 @@ set(SOURCE_FILES
         server/enum/ColorFactory.h
         server/enum/CarManufactureFactory.h
 
-        server/main.cpp
+        #server/main.cpp
 
         client/client.cpp
 
-        server/Server.cpp
+        #server/server.cpp
         server/sockets/Socket.cpp
         server/sockets/Socket.h
         server/sockets/Udp.cpp
         server/sockets/Udp.h)
 
-set(BOOST_ROOT CACHE PATH "/usr/include/boost/")
-find_package(Boost 1.58.0 COMPONENTS serialization system)
-include_directories(${Boost_INCLUDE_DIR})
 
-add_executable(ex4AP ${SOURCE_FILES})
+add_executable(client client/client.cpp ${SOURCE_FILES})
+#add_executable(server server/server.cpp ${SOURCE_FILES})
 
-target_link_libraries(main ${Boost_LIBRARIES})
+target_link_libraries(client ${Boost_LIBRARIES})
+#target_link_libraries(server ${Boost_LIBRARIES})

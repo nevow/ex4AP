@@ -8,7 +8,7 @@
 
 int main() {
     std::cout << "Hello, from server" << std::endl;
-
+/*
     Udp udp(1, 5555);
     udp.initialize();
 
@@ -26,7 +26,7 @@ int main() {
     char buffer2[1024];
     udp2.reciveData(buffer2, sizeof(buffer2));
     cout << buffer2 << endl;
-    udp2.sendData("sup?");
+    udp2.sendData("sup?");*/
 
     // support more than one client?
     return 0;

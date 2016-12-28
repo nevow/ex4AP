@@ -14,6 +14,8 @@ private:
     Point *destination;
 
 public:
+    Passenger() {};
+
     Passenger(Point *start, Point *destination);
 
     int generateSatisfaction();

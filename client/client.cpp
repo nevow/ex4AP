@@ -64,6 +64,9 @@ int main(int argc, char *argv[]) {
 
             // wait to receive the trip info from the server
             sock->reciveData(buffer, sizeof(buffer));
+            if (buffer == "9") {    // no trip info to move with
+                continue;
+            }
             // deserialize the trip info from the server
             {
                 boost::iostreams::basic_array_source<char> device(buffer, 1024);
