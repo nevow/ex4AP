@@ -86,7 +86,6 @@ Driver *TaxiCenter::getClosestDriver(Point *start) {
  * @param d driver to add to the employees list.s
  */
 void TaxiCenter::addDriver(Driver *d) {
-    d->setCab(getTaxiByID(d->getVehicle_id()));
     availableDrivers->push_back(d);
     listeners->push_back(new TripEndListener(d, this));
 }

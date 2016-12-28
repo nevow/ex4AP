@@ -38,7 +38,7 @@ public:
 
     int getY() const;
 
-    void addDriver(Driver *d);
+    Taxi* assignDriver(Driver *d);
 
     void addTaxi(Taxi *cab);
 

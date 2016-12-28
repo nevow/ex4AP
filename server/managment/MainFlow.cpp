@@ -4,12 +4,13 @@
 
 #include "MainFlow.h"
 
-#include "../enum/MartialStatuesFactory.h"
 #include "../taxi/Cab.h"
 #include "../enum/ColorFactory.h"
 #include "../enum/CarManufactureFactory.h"
 #include "../taxi/LuxuryCab.h"
 #include "ProperInput.h"
+#include "../sockets/Udp.h"
+
 
 using namespace std;
 
@@ -46,9 +47,10 @@ MainFlow::MainFlow() {
  */
 void MainFlow::input() {
     int choice;
-    int id, age, experience, vehicleId, taxi_type, num_passengers;
+    int id, drivers_num, age, experience, vehicleId, taxi_type, num_passengers;
     double tariff;
     char trash, status, manufacturer, color;
+
 
     do {
         choice = ProperInput::validInt();
@@ -56,19 +58,41 @@ void MainFlow::input() {
         switch (choice) {
             // create new drive
             case 1: {
-                id = ProperInput::validInt();
-                cin >> trash;
-                age = ProperInput::validInt();
-                cin >> trash >> status >> trash;
-                experience = ProperInput::validInt();
-                cin >> trash;
-                vehicleId = ProperInput::validInt();
-                cin.ignore();
+                drivers_num = ProperInput::validInt();
 
-                Driver *driver = new Driver(id, age,
-                                            MartialStatuesFactory::getMartialStatus(status),
-                                            experience, vehicleId);
-                so->addDriver(driver);
+                Udp udp(1, 5555);
+                udp.initialize();
+
+                for (int i = drivers_num; i > 0; --i) {
+                    char buffer[1024];
+                    udp.reciveData(buffer, sizeof(buffer));
+
+                    Driver *driver;
+                    boost::iostreams::basic_array_source<char> device(buffer, 1024);
+                    boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(
+                            device);
+                    boost::archive::binary_iarchive ia(s2);
+                    ia >> driver;
+
+                    so->assignDriver(driver);
+
+
+
+                    /*
+                     id = ProperInput::validInt();
+                    cin >> trash;
+                    age = ProperInput::validInt();
+                    cin >> trash >> status >> trash;
+                    experience = ProperInput::validInt();
+                    cin >> trash;
+                    vehicleId = ProperInput::validInt();
+                    cin.ignore();
+
+                    Driver *driver = new Driver(id, age,
+                                                MartialStatuesFactory::getMartialStatus(status),
+                                                experience, vehicleId);
+                     */
+                }
                 break;
             }
                 // create new TripInfo
@@ -88,7 +112,18 @@ void MainFlow::input() {
 
                 TripInfo *tripInfo = new TripInfo(id, start, end, num_passengers, tariff);
                 so->addTI(tripInfo);
+
+                std::string serial_str;
+                boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+                boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(
+                        inserter);
+                boost::archive::binary_oarchive oa(s);
+                oa << tripInfo;
+                s.flush();
+
+
                 break;
+
             }
                 // create new Taxi
             case 3: {

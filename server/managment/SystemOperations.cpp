@@ -35,9 +35,13 @@ int SystemOperations::getY() const {
 
 /**
  * @param d is the Driver to add to the taxi center
+ * @return the cab that set to the driver
  */
-void SystemOperations::addDriver(Driver *d) {
+Taxi *SystemOperations::assignDriver(Driver *d) {
     tc->addDriver(d);
+    Taxi *taxi = tc->getTaxiByID(d->getVehicle_id());
+    d->setCab(taxi);
+    return taxi;
 }
 
 /**
