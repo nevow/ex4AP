@@ -56,7 +56,9 @@ void SystemOperations::addTaxi(Taxi *cab) {
  * @param tripInfo is the TripInfo to add to the taxi center
  */
 void SystemOperations::addTI(TripInfo *tripInfo) {
+    //*******************להשתמש ב BFS לחישוב מסלול*************
     tc->addTI(tripInfo);
+
 }
 
 /**

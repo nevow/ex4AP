@@ -11,6 +11,7 @@
 
 class MainFlow {
 private:
+    int clock = 0;
     SystemOperations *so;
 
 public:

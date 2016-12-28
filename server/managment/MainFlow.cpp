@@ -51,6 +51,8 @@ void MainFlow::input() {
     double tariff;
     char trash, status, manufacturer, color;
 
+    Udp udp(1, 5555);
+    udp.initialize();
 
     do {
         choice = ProperInput::validInt();
@@ -59,9 +61,6 @@ void MainFlow::input() {
             // create new drive
             case 1: {
                 drivers_num = ProperInput::validInt();
-
-                Udp udp(1, 5555);
-                udp.initialize();
 
                 for (int i = drivers_num; i > 0; --i) {
                     char buffer[1024];
@@ -109,7 +108,7 @@ void MainFlow::input() {
                 cin >> trash;
                 tariff = ProperInput::validDouble();
                 cin.ignore();
-
+                //****************** לשנות את הטריפ אינפו בסיסטם ***************************
                 TripInfo *tripInfo = new TripInfo(id, start, end, num_passengers, tariff);
                 so->addTI(tripInfo);
 
@@ -161,16 +160,26 @@ void MainFlow::input() {
                 }
                 break;
             }
-                // start driving - getting all drivers to their end point
-            case 6: {
-                so->moveAll();
+
+                // clock time - move one step
+            case 9: {
+                if (clock < 5) {
+                    udp.sendData("9");
+                    ++clock;
+                    so->moveAll();
+                }
+                //**********************************לבדוק מה קורה שמגיע ל 5 *********************
                 break;
             }
+
                 // every other case - don't do anything.
             default: {
                 break;
             }
         }
+        // exit condition
+    } while (choice != 7);
 
-    } while (choice != 7);         // exit condition
+    // send message to the client to shut down
+    udp.sendData("exit");
 }
