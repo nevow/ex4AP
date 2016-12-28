@@ -17,5 +17,13 @@ set(SOURCE_FILES server/coordinates/Point.cpp server/coordinates/Point.h server/
         server/managment/MainFlow.h server/tripOperations/Passenger.cpp server/tripOperations/Passenger.h
         server/taxi/Cab.cpp server/taxi/Cab.h server/enum/MartialStatuesFactory.h server/enum/ColorFactory.h
         server/enum/CarManufactureFactory.h server/managment/ProperInput.cpp server/managment/ProperInput.h
-        server/main.cpp client/Client.cpp server/Server.cpp server/sockets/Socket.cpp server/sockets/Socket.h server/sockets/Udp.cpp server/sockets/Udp.h)
+        server/main.cpp client/Client.cpp server/Server.cpp
+        server/sockets/Socket.cpp server/sockets/Socket.h server/sockets/Udp.cpp server/sockets/Udp.h)
+
+set(BOOST_ROOT CACHE PATH "/usr/include/boost/")
+find_package(Boost 1.58.0 COMPONENTS serialization system)
+include_directories(${Boost_INCLUDE_DIR})
+
 add_executable(ex4AP ${SOURCE_FILES})
+
+target_link_libraries(main ${Boost_LIBRARIES})

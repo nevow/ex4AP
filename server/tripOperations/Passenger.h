@@ -10,13 +10,21 @@
 
 class Passenger {
 private:
-    Point* start;
-    Point* destination;
+    Point *start;
+    Point *destination;
 
 public:
     Passenger(Point *start, Point *destination);
 
     int generateSatisfaction();
+
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version) {
+        ar & start;
+        ar & destination;
+    }
 };
 
 

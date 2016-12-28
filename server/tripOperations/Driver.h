@@ -11,6 +11,8 @@
 #include "Satisfaction.h"
 #include "../taxi/Taxi.h"
 
+using namespace boost::archive;
+
 class Driver {
 private:
     int id;
@@ -65,6 +67,20 @@ public:
     bool operator==(const Driver &otherDriver) const;
 
     bool operator!=(const Driver &otherDriver) const;
+
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version) {
+        ar & id;
+        ar & age;
+        ar & status;
+        ar & experience;
+        ar & ti;
+        ar & satisfaction;
+        ar & cab;
+        ar & vehicleId;
+    }
 
 };
 

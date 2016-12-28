@@ -93,6 +93,17 @@ public:
         return !(otherTaxi == *this);
     }
 
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version) {
+        ar & tariff;
+        ar & color;
+        ar & firm;
+        ar & kmPassed;
+        ar & id;
+        ar & location;
+    }
 };
 
 

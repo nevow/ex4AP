@@ -10,6 +10,8 @@
 #include <list>
 #include "../coordinates/Point.h"
 #include "Passenger.h"
+#include <boost/serialization/list.hpp>
+
 
 class TripInfo {
 
@@ -59,6 +61,19 @@ public:
 
     bool operator!=(const TripInfo &ti) const;
 
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version) {
+        ar & rideId;
+        ar & currentDistance;
+        ar & start;
+        ar & destination;
+        ar & amountOfPassengers;
+        ar & passengers;
+        ar & road;
+        ar & tariff;
+    }
 };
 
 #endif //EX1_TRIPINFO_H

@@ -27,8 +27,8 @@ list<Driver *> *TaxiCenter::getAvailableDrivers() const {
  */
 Point *TaxiCenter::getDriverLocation(int id) {
     if (!employees->empty()) {
-        for (std::list<Driver *>::const_iterator iterator = employees->begin(), end = employees->end();
-             iterator != end; ++iterator) {
+        for (std::list<Driver *>::const_iterator iterator = employees->begin(),
+                     end = employees->end(); iterator != end; ++iterator) {
             if ((*iterator)->getId() == id) {
                 return (*iterator)->getCab()->getLocation()->getP();
             }
