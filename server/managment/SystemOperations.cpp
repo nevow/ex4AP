@@ -19,7 +19,6 @@ SystemOperations::SystemOperations(Map *map1) {
 }
 
 /**
- *
  * @return the x of the so
  */
 int SystemOperations::getX() const {
@@ -27,7 +26,6 @@ int SystemOperations::getX() const {
 }
 
 /**
- *
  * @return the y of the so
  */
 int SystemOperations::getY() const {
@@ -90,11 +88,3 @@ Point *SystemOperations::getDriverLocation(int id) {
 void SystemOperations::moveAll(int clock) {
     tc->moveAll(clock);
 }
-
-/**
- * Not implement yet.
- * @param p the Passenger that ask for taxi
- */
-/*void SystemOperations::connectCall(Passenger *p) {
-
-}*/

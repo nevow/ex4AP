@@ -1,5 +1,5 @@
 //
-// Created by nevo on 01/12/16.
+// SystemOperations.
 //
 
 #ifndef EX1_SYSTEMOPERATIONS_H
@@ -22,6 +22,7 @@ private:
     Map *map;
 
 public:
+
     SystemOperations(Map *map);
 
     ~SystemOperations() {
@@ -49,8 +50,6 @@ public:
     Point *getDriverLocation(int id);
 
     void moveAll(int clock);
-
-    //void connectCall(Passenger *p);
 };
 
 
