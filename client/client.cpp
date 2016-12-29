@@ -84,6 +84,7 @@ int main(int argc, char *argv[]) {
             driver->setTi(ti);                     // set the driver with the trip info
         }
         sock->sendData("waiting_for_orders");      // tell the server that the client is waiting
+        cout << "sent waiting for orders" << endl;
         sock->reciveData(buffer, sizeof(buffer));  // wait to receive the orders from the server
 
         // if the client received the advance order
