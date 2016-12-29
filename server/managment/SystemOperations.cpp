@@ -67,7 +67,7 @@ void SystemOperations::addTI(TripInfo *tripInfo) {
     Node *start = new Node(tripInfo->getStart());
     Point *end = (tripInfo->getDestination());
     CoordinatedItem *dest = map->getCoordinatedItem(end->getX(), end->getY());
-    stack<CoordinatedItem *> *road = BFS::use(map, start, dest);
+    std::list<CoordinatedItem *> *road = BFS::use(map, start, dest);
     delete start;
     tripInfo->setRoad(road);
     tc->addTI(tripInfo);

@@ -34,7 +34,7 @@ public:
 
     void setTariff(double t);
 
-    void move(stack<CoordinatedItem *> *road);
+    void move(list<CoordinatedItem *> *road);
 
     friend class boost::serialization::access;
 

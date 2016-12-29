@@ -77,7 +77,7 @@ public:
      * abstract method.
      * @param road that need to follow
      */
-    virtual void move(stack<CoordinatedItem *> *road) = 0;
+    virtual void move(list<CoordinatedItem *> *road) = 0;
 
     /**
      * @param p the location that the taxi need to get to

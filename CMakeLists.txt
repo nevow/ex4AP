@@ -16,8 +16,6 @@ set(SOURCE_FILES
         server/coordinates/Grid.h
         server/coordinates/CoordinatedItem.h
         server/coordinates/Node.h
-        server/coordinates/Obstacle.cpp
-        server/coordinates/Obstacle.h
 
         server/tripOperations/Driver.cpp
         server/tripOperations/Driver.h

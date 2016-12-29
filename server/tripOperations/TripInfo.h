@@ -24,7 +24,7 @@ private:
     Point *destination;
     int amountOfPassengers;
     list<Passenger *> *passengers;
-    stack<CoordinatedItem *> *road;
+    list<CoordinatedItem *> *road;
     double tariff;
     int tripTime;
 
@@ -36,16 +36,15 @@ public:
              int tripTime);
 
     ~TripInfo() {
-        if (passengers) {
-            while (!passengers->empty()) {
-                delete (passengers->front());
-                passengers->pop_front();
-            }
-            delete (passengers);
+        while (!passengers->empty()) {
+            delete (passengers->front());
+            passengers->pop_front();
         }
+        delete (passengers);
+
         while (!road->empty()) {
-            delete (road->top());
-            road->pop();
+            delete (road->front());
+            road->pop_front();
         }
         delete road;
         delete start;
@@ -58,7 +57,7 @@ public:
 
     int getTripTime() const;
 
-    stack<CoordinatedItem *> *getRoad();
+    list<CoordinatedItem *> *getRoad();
 
     double getTariff() const;
 
@@ -66,7 +65,7 @@ public:
 
     list<Passenger *> *getPassengers() const;
 
-    void setRoad(stack<CoordinatedItem *> *road);
+    void setRoad(list<CoordinatedItem *> *road);
 
     bool checkEnd(Point *location);
 

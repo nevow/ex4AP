@@ -8,15 +8,15 @@
  * LuxuryCab move twice faster that cab.
  * @param road to move the cab according to
  */
-void LuxuryCab::move(stack<CoordinatedItem *> *road) {
+void LuxuryCab::move(std::list<CoordinatedItem *> *road) {
     if (!road->empty()) {
-        CoordinatedItem *item = road->top();
-        road->pop();
+        CoordinatedItem *item = road->front();
+        road->pop_front();
         // if we didn't got to the end of the road - move to the next CoordinatedItem
         if (!road->empty()) {
             delete (item);
-            item = road->top();
-            road->pop();
+            item = road->front();
+            road->pop_front();
             increaseKmPassed();
         }
         int **coords = item->getCoordinates();

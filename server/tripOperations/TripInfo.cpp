@@ -44,7 +44,7 @@ double TripInfo::getTariff() const {
 /**
  * @return the the road of the trip
  */
-stack<CoordinatedItem *> *TripInfo::getRoad() {
+list<CoordinatedItem *> *TripInfo::getRoad() {
     return road;
 }
 
@@ -79,7 +79,7 @@ Point *TripInfo::getDestination() const {
 /**
  * @param road with coordinated items representing the road of this trip
  */
-void TripInfo::setRoad(stack<CoordinatedItem *> *road) {
+void TripInfo::setRoad(std::list<CoordinatedItem *> *road) {
     TripInfo::road = road;
 }
 

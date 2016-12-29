@@ -14,10 +14,10 @@ void Cab::setTariff(double t) {
 /**
  * @param road to move the cab according to
  */
-void Cab::move(stack<CoordinatedItem *> *road) {
+void Cab::move(std::list<CoordinatedItem *> *road) {
     if (!road->empty()) {
-        CoordinatedItem *item = road->top();
-        road->pop();
+        CoordinatedItem *item = road->front();
+        road->pop_front();
         int **coords = item->getCoordinates();
         delete (item);
         Point p(*(coords[0]), *(coords[1]));
