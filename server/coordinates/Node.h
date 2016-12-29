@@ -7,6 +7,7 @@
 #define EX1_NODE_H
 
 #include "Point.h"
+#include <boost/serialization/export.hpp>
 
 class Node : public CoordinatedItem {
 private:

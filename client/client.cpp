@@ -32,18 +32,18 @@ int main(int argc, char *argv[]) {
                                 experience, vehicleId);
 
     // serialize the driver
-    std::string serial_str;
     {
+        std::string serial_str;
         boost::iostreams::back_insert_device<std::string> inserter(serial_str);
         boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
         boost::archive::binary_oarchive oa(s);
         oa << driver;
         s.flush();
+        sock->sendData(serial_str);
     }
 
     // send the driver using the socket
     char buffer[1024];
-    sock->sendData(serial_str);
     cout << "sent driver" << endl;
     sock->reciveData(buffer, sizeof(buffer));   // wait to receive a cab from the server
     cout << "got taxi" << endl;
@@ -65,17 +65,18 @@ int main(int argc, char *argv[]) {
             sock->sendData("waiting_for_trip");      // tell the server that the client is waiting
             cout << "sent waiting for trips" << endl;
 
+            char buf[1024];
             // wait to receive the trip info from the server
-            sock->reciveData(buffer, sizeof(buffer));
+            sock->reciveData(buf, sizeof(buf));
             cout << "received trip" << endl;
 
             // no trip info to move with
-            if (buffer == "9") {
+            if (buf == "9") {
                 continue;
             }
             // deserialize the trip info from the server
             {
-                boost::iostreams::basic_array_source<char> device(buffer, 1024);
+                boost::iostreams::basic_array_source<char> device(buf, sizeof(buf));
                 boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
                 boost::archive::binary_iarchive ia(s2);
                 ia >> ti;
