@@ -11,6 +11,7 @@
 #include "../coordinates/Point.h"
 #include "Passenger.h"
 #include <boost/serialization/list.hpp>
+#include <boost/serialization/stack.hpp>
 
 
 class TripInfo {
@@ -76,6 +77,19 @@ public:
     friend class boost::serialization::access;
 
     template<class Archive>
+    void serialize(Archive &ar, const unsigned int version) {
+        ar & rideId;
+        ar & currentDistance;
+        ar & start;
+        ar & destination;
+        ar & amountOfPassengers;
+        ar & passengers;
+        ar & road;
+        ar & tariff;
+        ar & tripTime;
+    }
+
+    /*template<class Archive>
     void save(Archive &ar, const unsigned int version) const {
         ar & rideId;
         ar & currentDistance;
@@ -125,7 +139,7 @@ public:
         ar & tripTime;
     }
 
-    BOOST_SERIALIZATION_SPLIT_MEMBER()
+    BOOST_SERIALIZATION_SPLIT_MEMBER()*/
 
 };
 
