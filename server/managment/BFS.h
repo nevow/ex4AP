@@ -13,11 +13,11 @@
 class BFS {
 
 public:
-    static stack<CoordinatedItem *> *use(Grid *Graph, CoordinatedItem *root, CoordinatedItem *dest);
+    static list<CoordinatedItem *> *use(Grid *Graph, CoordinatedItem *root, CoordinatedItem *dest);
 
     static void BFSAlgo(Grid *Graph, CoordinatedItem *root);
 
-    static stack<CoordinatedItem *> *getTrip(CoordinatedItem *dest);
+    static list<CoordinatedItem *> *getTrip(CoordinatedItem *dest);
 };
 
 

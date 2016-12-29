@@ -4,7 +4,6 @@
 //
 
 #include <queue>
-#include <stack>
 #include "BFS.h"
 
 /**
@@ -13,7 +12,7 @@
  * @param dest od calculate the road to
  * @return stack of CoordinatedItem represent the road
  */
-stack<CoordinatedItem *> *BFS::use(Grid *Graph, CoordinatedItem *root, CoordinatedItem *dest) {
+list<CoordinatedItem *> *BFS::use(Grid *Graph, CoordinatedItem *root, CoordinatedItem *dest) {
     // spread the distances using the BFS algorithm
     BFS::BFSAlgo(Graph, root);
     return (getTrip(dest));
@@ -61,14 +60,16 @@ void BFS::BFSAlgo(Grid *graph, CoordinatedItem *root) {
 /**
  * @param graph to search in it
  * @param dest of the road
- * @return stack of CoordinatedItem represent the road
+ * @return list of CoordinatedItem represent the road
  */
-stack<CoordinatedItem *> *BFS::getTrip(CoordinatedItem *dest) {
+list<CoordinatedItem *> *BFS::getTrip(CoordinatedItem *dest) {
 
-    stack<CoordinatedItem *> *road = new stack<CoordinatedItem *>;
+    std::list<CoordinatedItem *> *road = new list<CoordinatedItem *>;
+
+
     // insert the items to the stack from the end point to the start traversing over the parent.
     while (dest->getDistance() >= 0) {
-        road->push(dest);
+        road->push_front(dest);
         if (dest->getDistance() == 0) {
             break;
         } else {
