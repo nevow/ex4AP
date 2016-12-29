@@ -18,6 +18,12 @@ public:
 
     void move(stack<CoordinatedItem *> *road);
 
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version) {
+        ar & boost::serialization::base_object<Taxi>(*this);
+    }
 };
 
 #endif //EX1_LUXURYCAB_H
