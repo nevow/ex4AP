@@ -96,7 +96,7 @@ void Map::setAll(int dist) {
         for (int j = 0; j < rows; ++j) {
             Node *node = matrix[i][j];
             // if it isn't an obstacle set distance, and reset the parent to null
-            if (!node->getDistance() == -2) {
+            if (node->getDistance() != -2) {
                 node->setDistance(dist);
                 node->setParent(NULL);
             }
