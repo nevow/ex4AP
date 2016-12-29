@@ -4,14 +4,6 @@
 
 #include "MainFlow.h"
 
-#include "../taxi/Cab.h"
-#include "../enum/ColorFactory.h"
-#include "../enum/CarManufactureFactory.h"
-#include "../taxi/LuxuryCab.h"
-#include "ProperInput.h"
-#include "../sockets/Udp.h"
-
-
 using namespace std;
 
 /**
