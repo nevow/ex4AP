@@ -4,12 +4,13 @@
 
 #include <iostream>
 #include "sockets/Udp.h"
-#include <unistd.h>
+#include "managment/MainFlow.h"
 
-int main() {
-    std::cout << "Hello, from server" << std::endl;
-/*
-    Udp udp(1, 5555);
+int main(int argc, char *argv[]) {
+    MainFlow *mf = new MainFlow(atoi(argv[1]));
+    mf->input();
+
+    Udp udp(1, atoi(argv[1]));
     udp.initialize();
 
     char buffer[1024];
@@ -26,8 +27,9 @@ int main() {
     char buffer2[1024];
     udp2.reciveData(buffer2, sizeof(buffer2));
     cout << buffer2 << endl;
-    udp2.sendData("sup?");*/
+    udp2.sendData("sup?");
 
-    // support more than one client?
+// support more than one client?
+    delete (mf);
     return 0;
 }

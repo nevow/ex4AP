@@ -11,6 +11,10 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
+    // create a socket for transferring data between the server and the client
+    Socket *sock = new Udp(0, atoi(argv[2]));
+    sock->initialize();
+
     // get a driver with user input
     int id, age, experience, vehicleId;
     char trash, status;
@@ -26,10 +30,6 @@ int main(int argc, char *argv[]) {
     // create a driver with the user input
     Driver *driver = new Driver(id, age, MartialStatuesFactory::getMartialStatus(status),
                                 experience, vehicleId);
-
-    // create a socket for transferring data between the server and the client
-    Socket *sock = new Udp(0, atoi(argv[2]));
-    sock->initialize();
 
     // serialize the driver
     std::string serial_str;
@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
                 ti = NULL;
             }
         }
-    } while (buffer != "7");
+    } while (buffer != "exit");
 
     // delete all objects in the client
     if (ti != NULL) {

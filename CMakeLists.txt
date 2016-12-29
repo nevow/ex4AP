@@ -56,11 +56,6 @@ set(SOURCE_FILES
         server/enum/ColorFactory.h
         server/enum/CarManufactureFactory.h
 
-        #server/main.cpp
-
-        client/client.cpp
-
-        #server/server.cpp
         server/sockets/Socket.cpp
         server/sockets/Socket.h
         server/sockets/Udp.cpp
@@ -68,7 +63,7 @@ set(SOURCE_FILES
 
 
 add_executable(client client/client.cpp ${SOURCE_FILES})
-#add_executable(server server/server.cpp ${SOURCE_FILES})
+add_executable(server server/server.cpp ${SOURCE_FILES})
 
 target_link_libraries(client ${Boost_LIBRARIES})
-#target_link_libraries(server ${Boost_LIBRARIES})
+target_link_libraries(server ${Boost_LIBRARIES})

@@ -11,7 +11,7 @@
 #include "../coordinates/Point.h"
 #include "Passenger.h"
 #include <boost/serialization/list.hpp>
-#include <boost/serialization/stack.hpp>
+//#include <boost/serialization/stack.hpp>
 
 
 class TripInfo {
@@ -74,12 +74,20 @@ public:
         ar & destination;
         ar & amountOfPassengers;
         ar & passengers;
-        std::stack<CoordinatedItem *> temp;
         int size = 0;
-        while (!road->empty()) {
+        std::stack<CoordinatedItem *> temp;
+        while (!(road->empty())) {
             temp.push((road->top()));
+            road->pop();
+            size++;
         }
-        ar & road;
+        ar & size;
+        while (!(temp.empty())) {
+            CoordinatedItem *item = temp.top();
+            road->push(item);
+            ar & item;
+            temp.pop();
+        }
         ar & tariff;
     }
 
@@ -91,22 +99,22 @@ public:
         ar & destination;
         ar & amountOfPassengers;
         ar & passengers;
-        ar & road;
+        int size = 0;
+        CoordinatedItem *item;
+        ar & size;
+        std::stack<CoordinatedItem *> temp;
+        for (int i = 0; i < size; i++) {
+            ar & item;
+            temp.push(item);
+        }
+        while (!(temp.empty())) {
+            road->push((temp.top()));
+            temp.pop();
+        }
         ar & tariff;
     }
 
     BOOST_SERIALIZATION_SPLIT_MEMBER()
-    /*template<class Archive>
-    void serialize(Archive &ar, const unsigned int version) {
-        ar & rideId;
-        ar & currentDistance;
-        ar & start;
-        ar & destination;
-        ar & amountOfPassengers;
-        ar & passengers;
-        //ar & road;
-        ar & tariff;
-    }*/
 };
 
 #endif //EX1_TRIPINFO_H
