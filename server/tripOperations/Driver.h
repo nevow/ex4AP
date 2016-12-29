@@ -1,5 +1,5 @@
 //
-// Created by nevo on 01/12/16.
+// Driver.
 //
 
 #ifndef EX1_DRIVER_H
@@ -25,6 +25,7 @@ private:
     int vehicleId;
 
 public:
+
     Driver() {};
 
     Driver(int id, int age, const MartialStatues &status, int experience, int vehicle_id);

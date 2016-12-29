@@ -6,7 +6,6 @@
 
 /**
  * constructor.
- *
  * @param rideId for the trip
  * @param start point of the trip
  * @param destination point of the trip
@@ -25,7 +24,6 @@ TripInfo::TripInfo(int rideId, Point *start, Point *destination, int amountOfPas
     for (int i = 0; i < amountOfPassengers; i++) {
         passengers->push_front(new Passenger(start, destination));
     }
-
     road = NULL;
 }
 
@@ -44,7 +42,7 @@ double TripInfo::getTariff() const {
 }
 
 /**
- * @return the next point in the road
+ * @return the the road of the trip
  */
 stack<CoordinatedItem *> *TripInfo::getRoad() {
     return road;
@@ -79,7 +77,6 @@ Point *TripInfo::getDestination() const {
 }
 
 /**
- *
  * @param road with coordinated items representing the road of this trip
  */
 void TripInfo::setRoad(stack<CoordinatedItem *> *road) {

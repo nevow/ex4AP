@@ -16,6 +16,7 @@
 class TripInfo {
 
 private:
+
     int rideId;
     int currentDistance;
     Point *start;
@@ -27,6 +28,7 @@ private:
     int tripTime;
 
 public:
+
     TripInfo() {};
 
     TripInfo(int rideId, Point *start, Point *destination, int amountOfPassengers, double tariff,
@@ -53,17 +55,19 @@ public:
 
     Point *getDestination() const;
 
+    int getTripTime() const;
+
     stack<CoordinatedItem *> *getRoad();
 
     double getTariff() const;
-
-    bool checkEnd(Point *location);
 
     int getAmountOfPassengers() const;
 
     list<Passenger *> *getPassengers() const;
 
     void setRoad(stack<CoordinatedItem *> *road);
+
+    bool checkEnd(Point *location);
 
     bool operator==(const TripInfo &ti) const;
 
@@ -123,7 +127,6 @@ public:
 
     BOOST_SERIALIZATION_SPLIT_MEMBER()
 
-    int getTripTime() const;
 };
 
 #endif //EX1_TRIPINFO_H

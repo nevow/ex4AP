@@ -1,5 +1,5 @@
 //
-// Created by nevo on 01/12/16.
+// Passenger.
 //
 
 #ifndef EX1_PASSENGER_H

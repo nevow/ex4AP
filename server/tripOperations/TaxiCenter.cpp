@@ -6,7 +6,53 @@
 #include "../listeners/TripEndListener.h"
 
 /**
- *
+ * destructor.
+ */
+TaxiCenter::~TaxiCenter() {
+    // delete the employees list
+    while (!employees->empty()) {
+        delete (employees->front());
+        employees->pop_front();
+    }
+    delete (employees);
+
+    // delete the employees list
+    while (!locations->empty()) {
+        delete (locations->front());
+        locations->pop_front();
+    }
+    delete (locations);
+
+    // delete the employees list
+    while (!cabs->empty()) {
+        delete (cabs->front());
+        cabs->pop_front();
+    }
+    delete (cabs);
+
+    // delete the employees list
+    while (!trips->empty()) {
+        delete (trips->front());
+        trips->pop_front();
+    }
+    delete (trips);
+
+    // delete the employees list
+    while (!availableDrivers->empty()) {
+        delete (availableDrivers->front());
+        availableDrivers->pop_front();
+    }
+    delete (availableDrivers);
+
+    // delete the employees list
+    while (!listeners->empty()) {
+        delete (listeners->front());
+        listeners->pop_front();
+    }
+    delete (listeners);
+}
+
+/**
  * @return the working drivers list.
  */
 list<Driver *> *TaxiCenter::getEmployees() const {
@@ -21,11 +67,11 @@ list<Driver *> *TaxiCenter::getAvailableDrivers() const {
 }
 
 /**
- *
  * @param id of the driver
  * @return the location of the driver with the id
  */
 Point *TaxiCenter::getDriverLocation(int id) {
+    // search the driver at the employees list
     if (!employees->empty()) {
         for (std::list<Driver *>::const_iterator iterator = employees->begin(),
                      end = employees->end(); iterator != end; ++iterator) {
@@ -34,6 +80,7 @@ Point *TaxiCenter::getDriverLocation(int id) {
             }
         }
     }
+    // search the driver at the availableDrivers list
     if (!availableDrivers->empty()) {
         for (std::list<Driver *>::const_iterator iterator = availableDrivers->begin(),
                      end = availableDrivers->end(); iterator != end; ++iterator) {
@@ -60,7 +107,6 @@ Taxi *TaxiCenter::getTaxiByID(int id) {
 }
 
 /**
- *
  * @param start point of the trip
  * @return the closest driver to that point, remove from the list
  */
@@ -113,7 +159,6 @@ void TaxiCenter::addTI(TripInfo *ti) {
     }
 }
 
-
 /**
  * @param ti trip info to assign to the driver.
  * @return the driver after the set of the trip info.
@@ -149,7 +194,6 @@ void TaxiCenter::moveAll(int clock) {
 }
 
 /**
- *
  * @param el is event listener to remove from the list;
  */
 void TaxiCenter::removeListener(EventListener *el) {

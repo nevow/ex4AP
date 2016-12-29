@@ -15,14 +15,18 @@
 using namespace std;
 
 class TaxiCenter {
+
 private:
+
     list<Driver *> *employees;
     list<Node *> *locations;
     list<Taxi *> *cabs;
     list<TripInfo *> *trips;
     list<Driver *> *availableDrivers;
     list<EventListener *> *listeners;
+
 public:
+
     TaxiCenter(list<Driver *> *employees, list<Node *> *locations, list<Taxi *> *cabs,
                list<TripInfo *> *trips)
             : employees(employees), locations(locations), cabs(cabs), trips(trips),
@@ -37,49 +41,7 @@ public:
         listeners = new list<EventListener *>();
     }
 
-    ~TaxiCenter() {
-        // delete the employees list
-        while (!employees->empty()) {
-            delete (employees->front());
-            employees->pop_front();
-        }
-        delete (employees);
-
-        // delete the employees list
-        while (!locations->empty()) {
-            delete (locations->front());
-            locations->pop_front();
-        }
-        delete (locations);
-
-        // delete the employees list
-        while (!cabs->empty()) {
-            delete (cabs->front());
-            cabs->pop_front();
-        }
-        delete (cabs);
-
-        // delete the employees list
-        while (!trips->empty()) {
-            delete (trips->front());
-            trips->pop_front();
-        }
-        delete (trips);
-
-        // delete the employees list
-        while (!availableDrivers->empty()) {
-            delete (availableDrivers->front());
-            availableDrivers->pop_front();
-        }
-        delete (availableDrivers);
-
-        // delete the employees list
-        while (!listeners->empty()) {
-            delete (listeners->front());
-            listeners->pop_front();
-        }
-        delete (listeners);
-    }
+    ~TaxiCenter();
 
     list<Driver *> *getEmployees() const;
 
