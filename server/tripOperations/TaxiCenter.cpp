@@ -129,15 +129,47 @@ Driver *TaxiCenter::getClosestDriver(Point *start) {
 }
 
 /**
+ *
  * @param d driver to add to the employees list.s
  */
 void TaxiCenter::addDriver(Driver *d) {
-    availableDrivers->push_back(d);
     listeners->push_back(new TripEndListener(d, this));
-    if (!(trips->empty())) {
-        d->setTi((trips->front()));
-        trips->pop_front();
+    TripInfo *tripInfo = getUrgentTi();
+    if (!tripInfo) {
+        d->setTi(tripInfo);
+        employees->push_back(d);
+    } else {
+        availableDrivers->push_back(d);
     }
+}
+
+/**
+ * search the earliest trip info in the trips list and return it.
+ * @return the urgent tripInfo
+ */
+TripInfo *TaxiCenter::getUrgentTi() {
+    int time = trips->front()->getTripTime();
+    TripInfo *tripInfo = NULL;
+    TripInfo *temp = NULL;
+    if (!(trips->empty())) {
+        // search the earliest trip info and save a pointer to him
+        for (std::list<TripInfo *>::const_iterator iterator = trips->begin(),
+                     end = trips->end(); iterator != end; ++iterator) {
+            if ((*iterator)->getTripTime() <= time) {
+                tripInfo = (*iterator);
+                time = tripInfo->getTripTime();
+            }
+        }
+        // move all the trips info to the back of the list, until it's match to the one we found.
+        temp = trips->front();
+        trips->pop_front();
+        while (temp != tripInfo) {
+            trips->push_back(temp);
+            temp = trips->front();
+            trips->pop_front();
+        }
+    }
+    return tripInfo;
 }
 
 /**

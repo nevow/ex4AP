@@ -59,6 +59,8 @@ public:
 
     void addTI(TripInfo *ti);
 
+    TripInfo *getUrgentTi();
+
     void setDriverToTi(TripInfo *ti);
 
     void moveAll(int clock);
