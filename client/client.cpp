@@ -1,17 +1,16 @@
 //
-// Created by nevo on 27/12/16.
+// client.
 //
 
 #include "../server/sockets/Udp.h"
 #include "../server/managment/ProperInput.h"
 #include "../server/tripOperations/Driver.h"
 #include "../server/enum/MartialStatuesFactory.h"
-#include <unistd.h>
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    int timer = 0;
+    int clock = 0;
     // create a socket for transferring data between the server and the client
     Socket *sock = new Udp(0, atoi(argv[2]));
     sock->initialize();
@@ -60,17 +59,18 @@ int main(int argc, char *argv[]) {
     driver->setCab(cab);                           // set the cab to the driver
 
     TripInfo *ti = NULL;
-    // do while the server still sends orders different frmo the exit order "7"
+    // do while the server still sends orders different from the exit order "exit"
     do {
         if (ti == NULL) {
-            sock->sendData("waiting_for_trip");    // tell the server that the client is waiting
+            sock->sendData("waiting_for_trip");      // tell the server that the client is waiting
             cout << "sent waiting for trips" << endl;
 
             // wait to receive the trip info from the server
             sock->reciveData(buffer, sizeof(buffer));
             cout << "received trip" << endl;
 
-            if (buffer == "9") {    // no trip info to move with
+            // no trip info to move with
+            if (buffer == "9") {
                 continue;
             }
             // deserialize the trip info from the server
@@ -87,8 +87,8 @@ int main(int argc, char *argv[]) {
 
         // if the client received the advance order
         if (buffer == "9") {
-            timer++;
-            driver->moveOneStep(timer);                 // move the driver one step
+            clock++;
+            driver->moveOneStep(clock);                 // move the driver one step
             if (driver->getTi()->checkEnd(cab->getLocation()->getP())) { // if reached the end
                 delete ti;
                 driver->setTi(NULL);

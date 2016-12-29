@@ -11,6 +11,7 @@
 #include "../coordinates/Node.h"
 
 class BFS {
+
 public:
     static stack<CoordinatedItem *> *use(Grid *Graph, CoordinatedItem *root, CoordinatedItem *dest);
 

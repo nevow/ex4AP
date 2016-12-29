@@ -15,10 +15,12 @@
 using namespace std;
 
 class TripEndListener : public EventListener {
+
 private:
     Driver *driver;
     TaxiCenter *tc;
 public:
+
     TripEndListener(Driver *driver, TaxiCenter *tc);
 
     void notify();

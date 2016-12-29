@@ -33,7 +33,7 @@ void TripEndListener::notify() {
             driver->getSatisfaction()->update((*iterator)->generateSatisfaction());
         }
 
-        // tracerse over all the working drivers,find the current driver,
+        // traverse over all the working drivers,find the current driver,
         // move him to the available list
         std::list<Driver *> *drivers = tc->getEmployees();
         std::list<Driver *> tempDrivers;
@@ -43,14 +43,14 @@ void TripEndListener::notify() {
             // compare each driver until finding the right one
             if (*(*iterator) == *driver) {
                 drivers->pop_front();
-                // unsert all the drivers from the temp list back to the original
+                // insert all the drivers from the temp list back to the original
                 while (!tempDrivers.empty()) {
                     d = tempDrivers.front();
                     tempDrivers.pop_front();
                     drivers->push_front(d);
                 }
                 break;
-            } else {        // if didnt found the right driver, pop and insert to the temp list
+            } else {        // if didn't found the right driver, pop and insert to the temp list
                 d = drivers->front();
                 drivers->pop_front();
                 tempDrivers.push_front(d);

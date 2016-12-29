@@ -11,6 +11,7 @@
 class Grid {
 
 public:
+
     /**
      * abstract method.
      * @param item is the CoordinatedItem that need his neighbours

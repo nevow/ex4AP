@@ -19,7 +19,6 @@ stack<CoordinatedItem *> *BFS::use(Grid *Graph, CoordinatedItem *root, Coordinat
     return (getTrip(dest));
 }
 
-
 /**
  * @param graph to run the algorithm on.
  * @param root to start from

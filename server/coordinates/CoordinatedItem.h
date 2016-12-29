@@ -24,6 +24,7 @@
 using namespace boost::archive;
 
 class CoordinatedItem {
+
 private:
     int distance;
     CoordinatedItem *parent;
@@ -31,7 +32,7 @@ private:
 public:
 
     /**
-     * distructor
+     * destructor.
      */
     virtual ~CoordinatedItem() {
         parent = NULL;
@@ -77,8 +78,14 @@ public:
      */
     virtual void deleteCoords(int **coords) = 0;
 
+    /**
+     * boost.
+     */
     friend class boost::serialization::access;
 
+    /*
+     * serialization.
+     */
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version) {
         ar & distance;
