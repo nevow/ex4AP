@@ -45,7 +45,7 @@ MainFlow::MainFlow() {
  */
 void MainFlow::input(int ip) {
     int choice;
-    int id, drivers_num, taxi_type, num_passengers, time;
+    int id, drivers_num, taxi_type, num_passengers, trip_time;
     double tariff;
     char trash, manufacturer, color;
 
@@ -66,7 +66,6 @@ void MainFlow::input(int ip) {
                     char buffer[1024];
                     // receive the driver from the client
                     udp.reciveData(buffer, sizeof(buffer));
-                    cout << "received driver" << endl;
                     Driver *driver;
                     boost::iostreams::basic_array_source<char> device(buffer, 1024);
                     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(
@@ -84,7 +83,6 @@ void MainFlow::input(int ip) {
                     oa << taxi;
                     s.flush();
                     udp.sendData(serial_str);
-                    cout << "sent taxi" << endl;
                 }
                 break;
             }
@@ -103,10 +101,10 @@ void MainFlow::input(int ip) {
                 cin >> trash;
                 tariff = ProperInput::validDouble();
                 cin >> trash;
-                time = ProperInput::validInt();
+                trip_time = ProperInput::validInt();
                 cin.ignore();
-                //****************** לשנות את הטריפ אינפו בסיסטם ***************************
-                TripInfo *tripInfo = new TripInfo(id, start, end, num_passengers, tariff, time);
+                TripInfo *tripInfo = new TripInfo(id, start, end, num_passengers, tariff,
+                                                  trip_time);
                 so->addTI(tripInfo);
 
                 char buf[1024];
@@ -171,13 +169,10 @@ void MainFlow::input(int ip) {
                 // receive the client's status
                 udp.reciveData(buf, sizeof(buf));
                 if (buf == "waiting_for_orders") {
-                    if (clock < 5) {
-                        udp.sendData("9");
-                        ++clock;
-                        so->moveAll();
-                    }
+                    udp.sendData("9");
+                    ++clock;
+                    so->moveAll();
                 }
-                //**********************************לבדוק מה קורה שמגיע ל 5 *********************
                 break;
             }
 
