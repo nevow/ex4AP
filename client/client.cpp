@@ -44,8 +44,10 @@ int main(int argc, char *argv[]) {
     // send the driver using the socket
     char buffer[1024];
     sock->sendData(serial_str);
-
+    cout << "sent driver" << endl;
     sock->reciveData(buffer, sizeof(buffer));   // wait to receive a cab from the server
+    cout << "received taxi" << endl;
+
     // deserialize the taxi from the server
     Taxi *cab;
     {
@@ -61,9 +63,12 @@ int main(int argc, char *argv[]) {
     do {
         if (ti == NULL) {
             sock->sendData("waiting_for_trip");    // tell the server that the client is waiting
+            cout << "sent waiting for trips" << endl;
 
             // wait to receive the trip info from the server
             sock->reciveData(buffer, sizeof(buffer));
+            cout << "received trip" << endl;
+
             if (buffer == "9") {    // no trip info to move with
                 continue;
             }

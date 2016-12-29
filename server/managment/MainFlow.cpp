@@ -45,7 +45,7 @@ MainFlow::MainFlow() {
  */
 void MainFlow::input(int ip) {
     int choice;
-    int id, drivers_num, taxi_type, num_passengers;
+    int id, drivers_num, taxi_type, num_passengers, time;
     double tariff;
     char trash, manufacturer, color;
 
@@ -66,6 +66,7 @@ void MainFlow::input(int ip) {
                     char buffer[1024];
                     // receive the driver from the client
                     udp.reciveData(buffer, sizeof(buffer));
+                    cout << "received driver" << endl;
                     Driver *driver;
                     boost::iostreams::basic_array_source<char> device(buffer, 1024);
                     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(
@@ -83,6 +84,7 @@ void MainFlow::input(int ip) {
                     oa << taxi;
                     s.flush();
                     udp.sendData(serial_str);
+                    cout << "sent taxi" << endl;
                 }
                 break;
             }
@@ -100,9 +102,11 @@ void MainFlow::input(int ip) {
                 num_passengers = ProperInput::validInt();
                 cin >> trash;
                 tariff = ProperInput::validDouble();
+                cin >> trash;
+                time = ProperInput::validInt();
                 cin.ignore();
                 //****************** לשנות את הטריפ אינפו בסיסטם ***************************
-                TripInfo *tripInfo = new TripInfo(id, start, end, num_passengers, tariff);
+                TripInfo *tripInfo = new TripInfo(id, start, end, num_passengers, tariff, time);
                 so->addTI(tripInfo);
 
                 char buf[1024];
