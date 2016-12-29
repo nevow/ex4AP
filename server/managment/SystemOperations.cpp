@@ -10,9 +10,9 @@
  * @param map1 the map to do on it the operations
  * @param obs is a lists of obstacles.
  */
-SystemOperations::SystemOperations(Map *map1, list<Node *> *obs) {
+SystemOperations::SystemOperations(Map *map1) {
     map = map1;
-    obstacles = obs;
+    obstacles = new list<Node *>;
     tc = new TaxiCenter();
     x = map->getColumns();
     y = map->getRows();
@@ -50,7 +50,15 @@ Taxi *SystemOperations::assignDriver(Driver *d) {
  */
 void SystemOperations::addTaxi(Taxi *cab) {
     tc->addTaxi(cab);
+}
 
+/**
+ * @param obstacle to add to the obstacles List.
+ */
+void SystemOperations::addObstacle(Point obstacle) {
+    Node *n = new Node(&obstacle);
+    obstacles->push_front(n);
+    map->setItem(n, -2);            // set the match node on the grid to -2
 }
 
 /**
@@ -58,7 +66,11 @@ void SystemOperations::addTaxi(Taxi *cab) {
  * @param tripInfo is the TripInfo to add to the taxi center
  */
 void SystemOperations::addTI(TripInfo *tripInfo) {
-    stack<CoordinatedItem *> *road = BFS::use(map, tripInfo->getStart(), tripInfo->getEnd());
+    Node *start = new Node(tripInfo->getStart());
+    Node *end = new Node(tripInfo->getDestination());
+    stack<CoordinatedItem *> *road = BFS::use(map, start, end);
+    delete start;
+    delete end;
     tripInfo->setRoad(road);
     tc->addTI(tripInfo);
 
@@ -85,11 +97,4 @@ void SystemOperations::moveAll() {
  */
 /*void SystemOperations::connectCall(Passenger *p) {
 
-}*/
-
-/**
- * @param obstacle to add to the obstacles List.
- */
-/*void SystemOperations::addObstacle(Node *obstacle) {
-    obstacles->push_back(obstacle);
 }*/

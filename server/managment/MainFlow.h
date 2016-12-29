@@ -15,13 +15,13 @@ private:
     SystemOperations *so;
 
 public:
-    MainFlow(int ip);
+    MainFlow();
 
     ~MainFlow() {
         delete so;
     }
 
-    void input();
+    void input(int ip);
 };
 
 

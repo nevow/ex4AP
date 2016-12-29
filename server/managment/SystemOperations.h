@@ -22,7 +22,7 @@ private:
     Map *map;
 
 public:
-    SystemOperations(Map *map1, list<Node *> *obs);
+    SystemOperations(Map *map);
 
     ~SystemOperations() {
         delete (map);
@@ -38,17 +38,17 @@ public:
 
     int getY() const;
 
-    Taxi* assignDriver(Driver *d);
+    Taxi *assignDriver(Driver *d);
 
     void addTaxi(Taxi *cab);
+
+    void addObstacle(Point obstacle);
 
     void addTI(TripInfo *tripInfo);
 
     Point *getDriverLocation(int id);
 
     void moveAll();
-
-    //void addObstacle(Node *obstacle);
 
     //void connectCall(Passenger *p);
 };

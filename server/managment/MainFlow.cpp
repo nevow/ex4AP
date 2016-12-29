@@ -18,10 +18,9 @@ using namespace std;
  * constructor.
  * initialize the environment, get map, obstacles and create a SystemOperations.
  */
-MainFlow::MainFlow(int ip) {
+MainFlow::MainFlow() {
 
     int rows, columns, obstacleNum;
-    std::list<Node *> *obstacles = new list<Node *>;
 
     // get the map's size and create it
     cin >> columns >> rows;
@@ -31,28 +30,26 @@ MainFlow::MainFlow(int ip) {
     obstacleNum = ProperInput::validInt();
     cin.ignore();
 
+    so = new SystemOperations(map);
+
     // make the obstacles List from the input
     for (; obstacleNum > 0; obstacleNum--) {
         Point obs = ProperInput::validPoint(columns, rows);
         cin.ignore();
-        Node *n = new Node(&obs);
-        obstacles->push_front(n);
-        map->setItem(n, -2);            // set the match node on the grid to -2
+        so->addObstacle(obs);
     }
-
-    so = new SystemOperations(map, obstacles);
 }
 
 /**
  * get inputs from user and follow the commands.
  */
-void MainFlow::input() {
+void MainFlow::input(int ip) {
     int choice;
-    int id, drivers_num, age, experience, vehicleId, taxi_type, num_passengers;
+    int id, drivers_num, taxi_type, num_passengers;
     double tariff;
-    char trash, status, manufacturer, color;
+    char trash, manufacturer, color;
 
-    Udp udp(1, 5555);
+    Udp udp(1, ip);
     udp.initialize();
 
     do {
@@ -62,6 +59,7 @@ void MainFlow::input() {
             // create drivers, gets from the client
             case 1: {
                 drivers_num = ProperInput::validInt();
+                cin.ignore();
 
                 for (int i = drivers_num; i > 0; --i) {
 
