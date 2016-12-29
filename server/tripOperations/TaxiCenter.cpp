@@ -123,12 +123,13 @@ void TaxiCenter::setDriverToTi(TripInfo *ti) {
 
 /**
  * iterate over all the drivers and tell them to move.
+ * @param clock is the time at the world
  */
-void TaxiCenter::moveAll() {
+void TaxiCenter::moveAll(int clock) {
     // iterate over all drivers tell them to move.
     for (std::list<Driver *>::const_iterator iterator = employees->begin(),
                  end = employees->end(); iterator != end; ++iterator) {
-        (*iterator)->moveOneStep();
+        (*iterator)->moveOneStep((clock));
     }
     // copy all listeners to a temp list
     std::list<EventListener *> temp;

@@ -121,6 +121,8 @@ public:
     }
 
     BOOST_SERIALIZATION_SPLIT_MEMBER()
+
+    int getTripTime() const;
 };
 
 #endif //EX1_TRIPINFO_H

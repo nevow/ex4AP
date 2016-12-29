@@ -118,10 +118,13 @@ void Driver::setCab(Taxi *cab) {
 
 /**
  * make the driver move one step towards his destination.
+ * @param clock is the time at the world
  */
-void Driver::moveOneStep() {
+void Driver::moveOneStep(int clock) {
     if (ti) {
-        cab->move(ti->getRoad());
+        if (ti->getTripTime() >= clock) {
+            cab->move(ti->getRoad());
+        }
     }
 }
 

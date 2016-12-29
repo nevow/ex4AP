@@ -48,7 +48,7 @@ public:
 
     Point *getDriverLocation(int id);
 
-    void moveAll();
+    void moveAll(int clock);
 
     //void connectCall(Passenger *p);
 };

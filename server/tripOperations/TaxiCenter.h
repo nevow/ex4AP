@@ -99,7 +99,7 @@ public:
 
     void setDriverToTi(TripInfo *ti);
 
-    void moveAll();
+    void moveAll(int clock);
 
     void removeListener(EventListener *el);
 
