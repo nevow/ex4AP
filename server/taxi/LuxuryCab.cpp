@@ -35,3 +35,5 @@ void LuxuryCab::move(stack<CoordinatedItem *> *road) {
 void LuxuryCab::setTariff(double t) {
     Taxi::setTariff(t * 2);
 }
+
+BOOST_CLASS_EXPORT(LuxuryCab)

@@ -20,6 +20,7 @@
 #include <boost/iostreams/stream.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
+#include <boost/serialization/base_object.hpp>
 
 using namespace boost::archive;
 
@@ -93,5 +94,6 @@ public:
     }
 };
 
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(CoordinatedItem);
 
 #endif //EX1_COORDINATEDITEM_H

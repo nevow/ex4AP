@@ -8,17 +8,13 @@
 #include <list>
 
 #include "SystemOperations.h"
-#include "boost/serialization/export.hpp"
-#include "../taxi/Cab.h"
 #include "../enum/ColorFactory.h"
 #include "../enum/CarManufactureFactory.h"
 #include "../taxi/LuxuryCab.h"
 #include "ProperInput.h"
 #include "../sockets/Udp.h"
-
-
-BOOST_CLASS_EXPORT_GUID(Cab, "Cab")
-BOOST_CLASS_EXPORT_GUID(LuxuryCab, "LuxuryCab")
+#include "../taxi/Cab.h"
+#include "../taxi/LuxuryCab.h"
 
 class MainFlow {
 private:

@@ -74,8 +74,8 @@ void MainFlow::input(int ip) {
                     std::string serial_str;
                     {
                         boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-                        boost::iostreams::stream<boost::iostreams::back_insert_device<std::string>> s(
-                                inserter);
+                        boost::iostreams::stream<boost::iostreams::back_insert_device<std::string>>
+                                s(inserter);
                         boost::archive::binary_oarchive oa(s);
                         oa << taxi;
                         s.flush();
@@ -87,7 +87,7 @@ void MainFlow::input(int ip) {
                     char buf[1024];
                     // receive the client's status
                     udp.reciveData(buf, sizeof(buf));
-                    if (buf == "waiting_for_trip") {
+                    if (!strcmp(buf, "waiting_for_trip")) {
                         TripInfo *ti = driver->getTi();
                         {
                             boost::iostreams::back_insert_device<std::string> inserter(serial_str);

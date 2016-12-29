@@ -26,3 +26,5 @@ void Cab::move(stack<CoordinatedItem *> *road) {
         increaseKmPassed();
     }
 }
+
+BOOST_CLASS_EXPORT(Cab)

@@ -51,3 +51,5 @@ bool Node::operator==(const Node &otherNode) const {
 bool Node::operator!=(const Node &otherNode) const {
     return !(otherNode == *this);
 }
+
+BOOST_CLASS_EXPORT(Node)

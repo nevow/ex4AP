@@ -9,6 +9,7 @@
 #include "../enum/CarManufacture.h"
 #include "../coordinates/Node.h"
 #include <stack>
+#include <boost/serialization/base_object.hpp>
 
 class Taxi {
 
@@ -21,6 +22,8 @@ private:
     Node *location;
 
 public:
+
+    Taxi() {};
 
     /**
      * constructor.
@@ -113,5 +116,5 @@ public:
     }
 };
 
-
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(Taxi);
 #endif //EX1_TAXI_H
