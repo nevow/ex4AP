@@ -66,6 +66,8 @@ void MainFlow::input(int ip) {
                     char buffer[1024];
                     // receive the driver from the client
                     udp.reciveData(buffer, sizeof(buffer));
+
+                    cout << "received driver" << endl;
                     Driver *driver;
                     boost::iostreams::basic_array_source<char> device(buffer, 1024);
                     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(
@@ -83,6 +85,7 @@ void MainFlow::input(int ip) {
                     oa << taxi;
                     s.flush();
                     udp.sendData(serial_str);
+                    cout << "sent taxi" << endl;
                 }
                 break;
             }

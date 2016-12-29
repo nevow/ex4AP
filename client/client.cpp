@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     sock->sendData(serial_str);
     cout << "sent driver" << endl;
     sock->reciveData(buffer, sizeof(buffer));   // wait to receive a cab from the server
-    cout << "received taxi" << endl;
+    cout << "got taxi" << endl;
 
     // deserialize the taxi from the server
     Taxi *cab;
