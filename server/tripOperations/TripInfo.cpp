@@ -88,7 +88,7 @@ void TripInfo::setRoad(stack<CoordinatedItem *> *road) {
  * @return true if the location is the end of the trip.
  */
 bool TripInfo::checkEnd(Point *location) {
-    return *location == *destination;
+    return (*location) == (*destination);
 }
 
 /**

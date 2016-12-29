@@ -166,14 +166,15 @@ void MainFlow::input(int ip) {
 
                 // clock time - move one step
             case 9: {
-                char buf[1024];
+                //char buf[1024];
                 // receive the client's status
-                udp.reciveData(buf, sizeof(buf));
-                if (buf == "waiting_for_orders") {
-                    udp.sendData("9");
-                    ++clock;
-                    so->moveAll(clock);
-                }
+                //udp.reciveData(buf, sizeof(buf));
+                //if (!strcmp(buf, "waiting_for_orders")) {
+                udp.sendData("9");
+                cout << "sent 9" << endl;
+                ++clock;
+                so->moveAll(clock);
+                //}
                 break;
             }
 

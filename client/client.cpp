@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
             cout << "received trip" << endl;
 
             // no trip info to move with
-            if (buf == "9") {
+            if (!strcmp(buf, "9")) {
                 continue;
             }
             // deserialize the trip info from the server
@@ -83,12 +83,13 @@ int main(int argc, char *argv[]) {
             }
             driver->setTi(ti);                     // set the driver with the trip info
         }
-        sock->sendData("waiting_for_orders");      // tell the server that the client is waiting
+        char buf1[1024];
+        //sock->sendData("waiting_for_orders");      // tell the server that the client is waiting
         cout << "sent waiting for orders" << endl;
-        sock->reciveData(buffer, sizeof(buffer));  // wait to receive the orders from the server
+        sock->reciveData(buf1, sizeof(buf1));  // wait to receive the orders from the server
 
         // if the client received the advance order
-        if (buffer == "9") {
+        if (!strcmp(buf1, "9")) {
             clock++;
             driver->moveOneStep(clock);                 // move the driver one step
             if (driver->getTi()->checkEnd(cab->getLocation()->getP())) { // if reached the end
@@ -97,7 +98,7 @@ int main(int argc, char *argv[]) {
                 ti = NULL;
             }
         }
-    } while (buffer != "exit");
+    } while (strcmp(buffer, "exit"));
 
     // delete all objects in the client
     if (ti != NULL) {
