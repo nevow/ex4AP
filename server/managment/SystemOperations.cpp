@@ -65,10 +65,10 @@ void SystemOperations::addObstacle(Point obstacle) {
  */
 void SystemOperations::addTI(TripInfo *tripInfo) {
     Node *start = new Node(tripInfo->getStart());
-    Node *end = new Node(tripInfo->getDestination());
-    stack<CoordinatedItem *> *road = BFS::use(map, start, end);
+    Point *end = (tripInfo->getDestination());
+    CoordinatedItem *dest = map->getCoordinatedItem(end->getX(), end->getY());
+    stack<CoordinatedItem *> *road = BFS::use(map, start, dest);
     delete start;
-    delete end;
     tripInfo->setRoad(road);
     tc->addTI(tripInfo);
 }
