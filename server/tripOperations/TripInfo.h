@@ -75,6 +75,18 @@ public:
 
     friend class boost::serialization::access;
 
+    /*template<class Archive>
+    void serialize(Archive &ar, const unsigned int version) {
+        ar & rideId;
+        ar & currentDistance;
+        ar & start;
+        ar & destination;
+        ar & amountOfPassengers;
+        ar & passengers;
+        ar & tariff;
+        ar & tripTime;
+    }*/
+
     template<class Archive>
     void save(Archive &ar, const unsigned int version) const {
         ar & rideId;

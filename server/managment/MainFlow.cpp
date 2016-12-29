@@ -71,8 +71,8 @@ void MainFlow::input(int ip) {
                     }
                     // assign the Driver with the taxi, serialize the taxi, send it to the client
                     Taxi *taxi = so->assignDriver(driver);
-                    std::string serial_str;
                     {
+                        std::string serial_str;
                         boost::iostreams::back_insert_device<std::string> inserter(serial_str);
                         boost::iostreams::stream<boost::iostreams::back_insert_device<std::string>>
                                 s(inserter);
@@ -90,6 +90,7 @@ void MainFlow::input(int ip) {
                     if (!strcmp(buf, "waiting_for_trip")) {
                         TripInfo *ti = driver->getTi();
                         {
+                            std::string serial_str;
                             boost::iostreams::back_insert_device<std::string> inserter(serial_str);
                             boost::iostreams::stream<boost::iostreams::back_insert_device<std::string>> s(
                                     inserter);
