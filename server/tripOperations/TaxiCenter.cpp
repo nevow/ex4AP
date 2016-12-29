@@ -155,7 +155,7 @@ TripInfo *TaxiCenter::getUrgentTi() {
         // search the earliest trip info and save a pointer to him
         for (std::list<TripInfo *>::const_iterator iterator = trips->begin(),
                      end = trips->end(); iterator != end; ++iterator) {
-            if ((*iterator)->getTripTime() < time) {
+            if ((*iterator)->getTripTime() <= time) {
                 tripInfo = (*iterator);
                 time = tripInfo->getTripTime();
             }
