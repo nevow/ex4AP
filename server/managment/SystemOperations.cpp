@@ -73,7 +73,6 @@ void SystemOperations::addTI(TripInfo *tripInfo) {
     delete end;
     tripInfo->setRoad(road);
     tc->addTI(tripInfo);
-
 }
 
 /**

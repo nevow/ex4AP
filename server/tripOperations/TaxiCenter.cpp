@@ -88,6 +88,10 @@ Driver *TaxiCenter::getClosestDriver(Point *start) {
 void TaxiCenter::addDriver(Driver *d) {
     availableDrivers->push_back(d);
     listeners->push_back(new TripEndListener(d, this));
+    if (!(trips->empty())) {
+        d->setTi((trips->front()));
+        trips->pop_front();
+    }
 }
 
 /**

@@ -64,28 +64,49 @@ void MainFlow::input(int ip) {
                 for (int i = drivers_num; i > 0; --i) {
 
                     char buffer[1024];
+                    cout << "waiting for driver" << endl;
                     // receive the driver from the client
                     udp.reciveData(buffer, sizeof(buffer));
 
                     cout << "received driver" << endl;
                     Driver *driver;
-                    boost::iostreams::basic_array_source<char> device(buffer, 1024);
-                    boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(
-                            device);
-                    boost::archive::binary_iarchive ia(s2);
-                    ia >> driver;
-
+                    {
+                        boost::iostreams::basic_array_source<char> dev(buffer, 1024);
+                        boost::iostreams::stream<boost::iostreams::basic_array_source<char>> s2(
+                                dev);
+                        boost::archive::binary_iarchive ia(s2);
+                        ia >> driver;
+                    }
                     // assign the Driver with the taxi, serialize the taxi, send it to the client
                     Taxi *taxi = so->assignDriver(driver);
                     std::string serial_str;
-                    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-                    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(
-                            inserter);
-                    boost::archive::binary_oarchive oa(s);
-                    oa << taxi;
-                    s.flush();
-                    udp.sendData(serial_str);
+                    {
+                        boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+                        boost::iostreams::stream<boost::iostreams::back_insert_device<std::string>> s(
+                                inserter);
+                        boost::archive::binary_oarchive oa(s);
+                        oa << taxi;
+                        s.flush();
+                        udp.sendData(serial_str);
+                    }
                     cout << "sent taxi" << endl;
+                    cout << "waiting for client reply" << endl;
+
+                    char buf[1024];
+                    // receive the client's status
+                    udp.reciveData(buf, sizeof(buf));
+                    if (buf == "waiting_for_trip") {
+                        {
+                            boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+                            boost::iostreams::stream<boost::iostreams::back_insert_device<std::string>> s(
+                                    inserter);
+                            boost::archive::binary_oarchive oa(s);
+                            oa << (driver->getTi());
+                            s.flush();
+                            udp.sendData(serial_str);
+                            cout << "sent trip info" << endl;
+                        }
+                    }
                 }
                 break;
             }
@@ -109,23 +130,6 @@ void MainFlow::input(int ip) {
                 TripInfo *tripInfo = new TripInfo(id, start, end, num_passengers, tariff,
                                                   trip_time);
                 so->addTI(tripInfo);
-
-                char buf[1024];
-                // receive the client's status
-                udp.reciveData(buf, sizeof(buf));
-                if (buf == "waiting_for_trip") {
-
-                    std::string serial_str;
-                    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-                    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(
-                            inserter);
-                    boost::archive::binary_oarchive oa(s);
-                    oa << tripInfo;
-                    s.flush();
-                    udp.sendData(serial_str);
-                } else {
-                    delete (tripInfo);
-                }
                 break;
 
             }
@@ -174,7 +178,7 @@ void MainFlow::input(int ip) {
                 if (buf == "waiting_for_orders") {
                     udp.sendData("9");
                     ++clock;
-                    so->moveAll();
+                    so->moveAll(clock);
                 }
                 break;
             }

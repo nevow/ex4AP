@@ -95,6 +95,7 @@ public:
             temp.pop();
         }
         ar & tariff;
+        ar & tripTime;
     }
 
     template<class Archive>
@@ -118,6 +119,7 @@ public:
             temp.pop();
         }
         ar & tariff;
+        ar & tripTime;
     }
 
     BOOST_SERIALIZATION_SPLIT_MEMBER()
