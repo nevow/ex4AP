@@ -3,7 +3,6 @@
 //
 
 #include "TripInfo.h"
-#include "../coordinates/Node.h"
 
 /**
  * constructor.
@@ -15,9 +14,11 @@
  * @param tariff of the trip
  */
 TripInfo::TripInfo(int rideId, Point *start, Point *destination, int amountOfPassengers,
-                   double tariff) : rideId(rideId), start(start), destination(destination),
-                                    amountOfPassengers(amountOfPassengers), passengers(passengers),
-                                    tariff(tariff) {
+                   double tariff, int time) : rideId(rideId), start(start),
+                                              destination(destination),
+                                              amountOfPassengers(amountOfPassengers),
+                                              passengers(passengers),
+                                              tariff(tariff), tripTime(time) {
     currentDistance = 0;
     // creates the passengers according to the amount of passengers
     passengers = new list<Passenger *>;

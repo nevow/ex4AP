@@ -25,11 +25,13 @@ private:
     list<Passenger *> *passengers;
     stack<CoordinatedItem *> *road;
     double tariff;
+    int tripTime;
 
 public:
     TripInfo() {};
 
-    TripInfo(int rideId, Point *start, Point *destination, int amountOfPassengers, double tariff);
+    TripInfo(int rideId, Point *start, Point *destination, int amountOfPassengers, double tariff,
+             int tripTime);
 
     ~TripInfo() {
         if (passengers) {
