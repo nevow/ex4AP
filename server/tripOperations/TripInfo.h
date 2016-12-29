@@ -48,17 +48,21 @@ public:
         delete destination;
     }
 
+    Point *getStart() const;
+
+    Point *getDestination() const;
+
+    stack<CoordinatedItem *> *getRoad();
+
     double getTariff() const;
 
     bool checkEnd(Point *location);
-
-    stack<CoordinatedItem *> *getRoad();
 
     int getAmountOfPassengers() const;
 
     list<Passenger *> *getPassengers() const;
 
-    Point *getStart() const;
+    void setRoad(stack<CoordinatedItem *> *road);
 
     bool operator==(const TripInfo &ti) const;
 

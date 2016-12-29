@@ -15,9 +15,9 @@
  * @param tariff of the trip
  */
 TripInfo::TripInfo(int rideId, Point *start, Point *destination, int amountOfPassengers,
-                   double tariff) :
-        rideId(rideId), start(start), destination(destination),
-        amountOfPassengers(amountOfPassengers), passengers(passengers), tariff(tariff) {
+                   double tariff) : rideId(rideId), start(start), destination(destination),
+                                    amountOfPassengers(amountOfPassengers), passengers(passengers),
+                                    tariff(tariff) {
     currentDistance = 0;
     // creates the passengers according to the amount of passengers
     passengers = new list<Passenger *>;
@@ -26,10 +26,6 @@ TripInfo::TripInfo(int rideId, Point *start, Point *destination, int amountOfPas
     }
 
     road = NULL;
-
-    // create the road of this trip. only end point for now
-    road = new stack<CoordinatedItem *>();
-    road->push(new Node(destination));
 }
 
 /**
@@ -38,15 +34,6 @@ TripInfo::TripInfo(int rideId, Point *start, Point *destination, int amountOfPas
 double TripInfo::getTariff() const {
     return tariff;
 }
-
-/**
- * @param location to check if it is the end of this trip.
- * @return true if the location is the end of the trip.
- */
-bool TripInfo::checkEnd(Point *location) {
-    return *location == *destination;
-}
-
 
 /**
  * @return the next point in the road
@@ -78,6 +65,29 @@ Point *TripInfo::getStart() const {
 }
 
 /**
+ * @return the destination point of this trip
+ */
+Point *TripInfo::getDestination() const {
+    return destination;
+}
+
+/**
+ *
+ * @param road with coordinated items representing the road of this trip
+ */
+void TripInfo::setRoad(stack<CoordinatedItem *> *road) {
+    TripInfo::road = road;
+}
+
+/**
+ * @param location to check if it is the end of this trip.
+ * @return true if the location is the end of the trip.
+ */
+bool TripInfo::checkEnd(Point *location) {
+    return *location == *destination;
+}
+
+/**
  * @param ti is a trip info to compare if ti is equal
  * @return true if the ride ids match
  */
@@ -92,5 +102,6 @@ bool TripInfo::operator==(const TripInfo &ti) const {
 bool TripInfo::operator!=(const TripInfo &ti) const {
     return !(ti == *this);
 }
+
 
 
