@@ -18,7 +18,7 @@ using namespace std;
  * constructor.
  * initialize the environment, get map, obstacles and create a SystemOperations.
  */
-MainFlow::MainFlow() {
+MainFlow::MainFlow(int ip) {
 
     int rows, columns, obstacleNum;
     std::list<Node *> *obstacles = new list<Node *>;
@@ -37,6 +37,7 @@ MainFlow::MainFlow() {
         cin.ignore();
         Node *n = new Node(&obs);
         obstacles->push_front(n);
+        map->setItem(n, -2);            // set the match node on the grid to -2
     }
 
     so = new SystemOperations(map, obstacles);
@@ -58,14 +59,15 @@ void MainFlow::input() {
         choice = ProperInput::validInt();
         cin.ignore();
         switch (choice) {
-            // create new drive
+            // create drivers, gets from the client
             case 1: {
                 drivers_num = ProperInput::validInt();
 
                 for (int i = drivers_num; i > 0; --i) {
-                    char buffer[1024];
-                    udp.reciveData(buffer, sizeof(buffer));
 
+                    char buffer[1024];
+                    // receive the driver from the client
+                    udp.reciveData(buffer, sizeof(buffer));
                     Driver *driver;
                     boost::iostreams::basic_array_source<char> device(buffer, 1024);
                     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(
@@ -73,29 +75,22 @@ void MainFlow::input() {
                     boost::archive::binary_iarchive ia(s2);
                     ia >> driver;
 
-                    so->assignDriver(driver);
-
-
-
-                    /*
-                     id = ProperInput::validInt();
-                    cin >> trash;
-                    age = ProperInput::validInt();
-                    cin >> trash >> status >> trash;
-                    experience = ProperInput::validInt();
-                    cin >> trash;
-                    vehicleId = ProperInput::validInt();
-                    cin.ignore();
-
-                    Driver *driver = new Driver(id, age,
-                                                MartialStatuesFactory::getMartialStatus(status),
-                                                experience, vehicleId);
-                     */
+                    // assign the Driver with the taxi, serialize the taxi, send it to the client
+                    Taxi *taxi = so->assignDriver(driver);
+                    std::string serial_str;
+                    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+                    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(
+                            inserter);
+                    boost::archive::binary_oarchive oa(s);
+                    oa << taxi;
+                    s.flush();
+                    udp.sendData(serial_str);
                 }
                 break;
             }
                 // create new TripInfo
             case 2: {
+
                 id = ProperInput::validInt();
                 cin >> trash;
                 Point p1 = ProperInput::validPoint(so->getX(), so->getY());
@@ -112,15 +107,22 @@ void MainFlow::input() {
                 TripInfo *tripInfo = new TripInfo(id, start, end, num_passengers, tariff);
                 so->addTI(tripInfo);
 
-                std::string serial_str;
-                boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-                boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(
-                        inserter);
-                boost::archive::binary_oarchive oa(s);
-                oa << tripInfo;
-                s.flush();
+                char buf[1024];
+                // receive the client's status
+                udp.reciveData(buf, sizeof(buf));
+                if (buf == "waiting_for_trip") {
 
-
+                    std::string serial_str;
+                    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+                    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(
+                            inserter);
+                    boost::archive::binary_oarchive oa(s);
+                    oa << tripInfo;
+                    s.flush();
+                    udp.sendData(serial_str);
+                } else {
+                    delete (tripInfo);
+                }
                 break;
 
             }
@@ -163,10 +165,15 @@ void MainFlow::input() {
 
                 // clock time - move one step
             case 9: {
-                if (clock < 5) {
-                    udp.sendData("9");
-                    ++clock;
-                    so->moveAll();
+                char buf[1024];
+                // receive the client's status
+                udp.reciveData(buf, sizeof(buf));
+                if (buf == "waiting_for_orders") {
+                    if (clock < 5) {
+                        udp.sendData("9");
+                        ++clock;
+                        so->moveAll();
+                    }
                 }
                 //**********************************לבדוק מה קורה שמגיע ל 5 *********************
                 break;

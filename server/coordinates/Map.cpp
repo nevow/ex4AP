@@ -94,8 +94,12 @@ Node *Map::getRoot() {
 void Map::setAll(int dist) {
     for (int i = 0; i < columns; i++) {
         for (int j = 0; j < rows; ++j) {
-            matrix[i][j]->setDistance(dist);
-            matrix[i][j]->setParent(NULL);
+            Node *node = matrix[i][j];
+            // if it isn't an obstacle set distance, and reset the parent to null
+            if (!node->getDistance() == -2) {
+                node->setDistance(dist);
+                node->setParent(NULL);
+            }
         }
     }
 }

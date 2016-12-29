@@ -3,6 +3,7 @@
 //
 
 #include "SystemOperations.h"
+#include "BFS.h"
 
 /**
  * constructor.
@@ -53,10 +54,12 @@ void SystemOperations::addTaxi(Taxi *cab) {
 }
 
 /**
+ * addTI use the BFS to calculate the road of the ride, add the tripInfo to the taxi center
  * @param tripInfo is the TripInfo to add to the taxi center
  */
 void SystemOperations::addTI(TripInfo *tripInfo) {
-    //*******************להשתמש ב BFS לחישוב מסלול*************
+    stack<CoordinatedItem *> *road = BFS::use(map, tripInfo->getStart(), tripInfo->getEnd());
+    tripInfo->setRoad(road);
     tc->addTI(tripInfo);
 
 }
