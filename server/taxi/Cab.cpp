@@ -23,5 +23,6 @@ void Cab::move(stack<CoordinatedItem *> *road) {
         Point p(*(coords[0]), *(coords[1]));
         applyToPoint(&p);
         p.deleteCoords(coords);
+        increaseKmPassed();
     }
 }

@@ -64,6 +64,13 @@ public:
     };
 
     /**
+     * increase the KmPassed at 1.
+     */
+    void increaseKmPassed() {
+        kmPassed++;
+    }
+
+    /**
      * abstract method.
      * @param road that need to follow
      */

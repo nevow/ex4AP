@@ -17,12 +17,15 @@ void LuxuryCab::move(stack<CoordinatedItem *> *road) {
             delete (item);
             item = road->top();
             road->pop();
+            increaseKmPassed();
         }
         int **coords = item->getCoordinates();
         delete (item);
         Point p(*(coords[0]), *(coords[1]));
         applyToPoint(&p);
         p.deleteCoords(coords);
+        increaseKmPassed();
+
     }
 }
 

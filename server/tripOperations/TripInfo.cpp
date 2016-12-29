@@ -64,7 +64,6 @@ list<Passenger *> *TripInfo::getPassengers() const {
     return passengers;
 }
 
-
 /**
  * @return the starting point of this trip
  */
