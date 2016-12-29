@@ -11,6 +11,7 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
+    int timer = 0;
     // create a socket for transferring data between the server and the client
     Socket *sock = new Udp(0, atoi(argv[2]));
     sock->initialize();
@@ -86,7 +87,8 @@ int main(int argc, char *argv[]) {
 
         // if the client received the advance order
         if (buffer == "9") {
-            driver->moveOneStep();                 // move the driver one step
+            timer++;
+            driver->moveOneStep(timer);                 // move the driver one step
             if (driver->getTi()->checkEnd(cab->getLocation()->getP())) { // if reached the end
                 delete ti;
                 driver->setTi(NULL);

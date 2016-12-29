@@ -39,9 +39,9 @@ int SystemOperations::getY() const {
  * @return the cab that set to the driver
  */
 Taxi *SystemOperations::assignDriver(Driver *d) {
-    tc->addDriver(d);
     Taxi *taxi = tc->getTaxiByID(d->getVehicle_id());
     d->setCab(taxi);
+    tc->addDriver(d);
     return taxi;
 }
 
