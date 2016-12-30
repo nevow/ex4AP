@@ -8,7 +8,7 @@
 #include "../enum/Color.h"
 #include "../enum/CarManufacture.h"
 #include "../coordinates/Node.h"
-#include <stack>
+#include "../coordinates/CoordinatedItem.h"
 #include <boost/serialization/base_object.hpp>
 
 class Taxi {

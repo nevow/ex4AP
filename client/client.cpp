@@ -62,7 +62,6 @@ int main(int argc, char *argv[]) {
     // do while the server still sends orders different from the exit order "exit"
     do {
         if (ti == NULL) {
-            TripInfo *trip;
             sock->sendData("waiting_for_trip");      // tell the server that the client is waiting
             cout << "sent waiting for trips" << endl;
 
@@ -76,12 +75,12 @@ int main(int argc, char *argv[]) {
                 continue;
             }
             // deserialize the trip info from the server
-
-            boost::iostreams::basic_array_source<char> device(buf, 1024);
-            boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
-            boost::archive::binary_iarchive ia(s2);
-            ia >> trip;
-            ti = trip;
+            {
+                boost::iostreams::basic_array_source<char> device(buf, 1024);
+                boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
+                boost::archive::binary_iarchive ia(s2);
+                ia >> ti;
+            }
             driver->setTi(ti);                     // set the driver with the trip info
         }
         char buf1[1024];

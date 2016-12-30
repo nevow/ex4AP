@@ -122,7 +122,7 @@ void Driver::setCab(Taxi *cab) {
  */
 void Driver::moveOneStep(int clock) {
     if (ti) {
-        if (ti->getTripTime() >= clock) {
+        if (ti->getTripTime() <= clock) {
             cab->move(ti->getRoad());
         }
     }

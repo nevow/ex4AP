@@ -11,7 +11,6 @@
 #include "../coordinates/Point.h"
 #include "Passenger.h"
 #include <boost/serialization/list.hpp>
-#include <boost/serialization/stack.hpp>
 
 
 class TripInfo {

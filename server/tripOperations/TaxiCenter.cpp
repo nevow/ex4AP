@@ -135,7 +135,7 @@ Driver *TaxiCenter::getClosestDriver(Point *start) {
 void TaxiCenter::addDriver(Driver *d) {
     listeners->push_back(new TripEndListener(d, this));
     TripInfo *tripInfo = getUrgentTi();
-    if (!tripInfo) {
+    if (tripInfo) {
         d->setTi(tripInfo);
         employees->push_back(d);
     } else {
