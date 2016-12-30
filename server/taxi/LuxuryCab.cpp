@@ -14,13 +14,11 @@ void LuxuryCab::move(std::list<CoordinatedItem *> *road) {
         road->pop_front();
         // if we didn't got to the end of the road - move to the next CoordinatedItem
         if (!road->empty()) {
-            delete (item);
             item = road->front();
             road->pop_front();
             increaseKmPassed();
         }
         int **coords = item->getCoordinates();
-        delete (item);
         Point p(*(coords[0]), *(coords[1]));
         applyToPoint(&p);
         p.deleteCoords(coords);

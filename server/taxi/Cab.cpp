@@ -19,7 +19,7 @@ void Cab::move(std::list<CoordinatedItem *> *road) {
         CoordinatedItem * item = road->front();
         road->pop_front();
         int **coords = item->getCoordinates();
-        delete (item);
+        //delete (item);
         Point p(*(coords[0]), *(coords[1]));
         applyToPoint(&p);
         p.deleteCoords(coords);
