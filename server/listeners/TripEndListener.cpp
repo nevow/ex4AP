@@ -33,6 +33,8 @@ void TripEndListener::notify() {
             driver->getSatisfaction()->update((*iterator)->generateSatisfaction());
         }
 
+        driver->getCab()->resetKm();    // reset the KmPassed to 0
+
         // traverse over all the working drivers,find the current driver,
         // move him to the available list
         std::list<Driver *> *drivers = tc->getEmployees();

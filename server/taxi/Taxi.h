@@ -74,6 +74,13 @@ public:
     }
 
     /**
+     * reset the KmPassed to 0
+     */
+    void resetKm() {
+        Taxi::kmPassed = 0;
+    }
+
+    /**
      * abstract method.
      * @param road that need to follow
      */
