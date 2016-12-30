@@ -58,6 +58,8 @@ public:
 
     const MartialStatues &getStatus() const;
 
+    int getPort() const;
+
     void setStatus(const MartialStatues &status);
 
     void setExperience(int experience);

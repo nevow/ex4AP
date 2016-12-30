@@ -91,6 +91,13 @@ Taxi *Driver::getCab() const {
 }
 
 /**
+ * @return the port of the client driver
+ */
+int Driver::getPort() const {
+    return port;
+}
+
+/**
  * @param status of the driver to set.
  */
 void Driver::setStatus(const MartialStatues &status) {

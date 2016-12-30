@@ -11,7 +11,9 @@
 #include "../coordinates/Point.h"
 #include "Passenger.h"
 #include "../listeners/EventListener.h"
-#include "../listeners/MatchTripToDriver.h"
+#include "../listeners/SetTripListener.h"
+#include "../sockets/Socket.h"
+#include "../sockets/Udp.h"
 
 using namespace std;
 
@@ -40,7 +42,6 @@ public:
         trips = new list<TripInfo *>();
         availableDrivers = new list<Driver *>();
         listeners = new list<EventListener *>();
-        listeners->push_front(new MatchTripToDriver(trips, employees, this));
     }
 
     ~TaxiCenter();
