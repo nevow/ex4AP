@@ -79,7 +79,7 @@ int Udp::sendData(string data) {
  * @param size is the size of the data
  * @return int number representing the return status
  */
-int Udp::reciveData(char *buffer, int size) {
+int Udp::receiveData(char *buffer, int size) {
     struct sockaddr_in to;
     unsigned int to_len = sizeof(struct sockaddr_in);
     //receive

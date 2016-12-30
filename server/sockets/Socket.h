@@ -75,7 +75,7 @@ public:
      * @param size is the size of the data
      * @return int number representing the return status
      */
-    virtual int reciveData(char *buffer, int size) = 0;
+    virtual int receiveData(char *buffer, int size) = 0;
 };
 
 #endif /* SOCKET_H_ */

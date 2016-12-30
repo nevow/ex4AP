@@ -33,7 +33,7 @@ void DataSender<T>::sendData(Socket *sock, T *item) {
 template<class T>
 T *DataSender<T>::receiveData(Socket *sock) {
     char buffer[1024];
-    sock->reciveData(buffer, sizeof(buffer));
+    sock->receiveData(buffer, sizeof(buffer));
     T *item;
     {
         boost::iostreams::basic_array_source<char> dev(buffer, 1024);

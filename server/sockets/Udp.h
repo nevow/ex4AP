@@ -43,7 +43,7 @@ public:
      * @param size is the size of the data
      * @return int number representing the return status
      */
-    int reciveData(char *buffer, int size);
+    int receiveData(char *buffer, int size);
 };
 
 #endif /* UDP_H_ */

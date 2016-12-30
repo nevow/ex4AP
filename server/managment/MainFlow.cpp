@@ -4,7 +4,6 @@
 
 #include "MainFlow.h"
 #include "DataSender.h"
-#include "DataSender.cpp"
 
 using namespace std;
 
@@ -46,6 +45,8 @@ void MainFlow::input(int ip) {
     Socket *sock = new Udp(1, ip);
     sock->initialize();
 
+    char buf[100];
+
     do {
         choice = ProperInput::validInt();
         cin.ignore();
@@ -57,29 +58,24 @@ void MainFlow::input(int ip) {
 
                 for (int i = drivers_num; i > 0; --i) {
 
-                    char buffer[1024];
-                    cout << "waiting for driver" << endl;
+                    cout << "waiting for driver" << endl;                 //***********************
                     // receive the driver from the client
-                    //udp.reciveData(buffer, sizeof(buffer));
-
                     Driver *driver = DataSender<Driver>::receiveData(sock);
-                    cout << "received driver" << endl;
+                    cout << "received driver" << endl;                    //***********************
 
                     // assign the Driver with the taxi, serialize the taxi, send it to the client
                     Taxi *taxi = so->assignDriver(driver);
                     DataSender<Taxi>::sendData(sock, taxi);
 
-                    cout << "sent taxi" << endl;
-                    cout << "waiting for client reply" << endl;
+                    cout << "sent taxi" << endl;                          //***********************
+                    cout << "waiting for client reply" << endl;           //***********************
 
-                    char buf[1024];
                     // receive the client's status
-                    sock->reciveData(buf, sizeof(buf));
+                    sock->receiveData(buf, sizeof(buf));
                     if (!strcmp(buf, "waiting_for_trip")) {
                         TripInfo *ti = driver->getTi();
                         DataSender<TripInfo>::sendData(sock, ti);
                         cout << "sent trip info" << endl;
-
                     }
                 }
                 break;

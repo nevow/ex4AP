@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
         }
         //sock->sendData("waiting_for_orders");      // tell the server that the client is waiting
         cout << "sent waiting for orders" << endl;
-        sock->reciveData(buffer, sizeof(buffer));  // wait to receive the orders from the server
+        sock->receiveData(buffer, sizeof(buffer));  // wait to receive the orders from the server
 
         // if the client received the advance order
         if (!strcmp(buffer, "9")) {
