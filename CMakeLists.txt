@@ -57,10 +57,13 @@ set(SOURCE_FILES
         server/sockets/Socket.cpp
         server/sockets/Socket.h
         server/sockets/Udp.cpp
-        server/sockets/Udp.h)
+        server/sockets/Udp.h
+        server/managment/DataSender.cpp
+        server/managment/DataSender.h
+        server/listeners/MatchTripToDriver.cpp
+        server/listeners/MatchTripToDriver.h)
 
-
-add_executable(client client/client.cpp ${SOURCE_FILES} server/managment/DataSender.cpp server/managment/DataSender.h)
+add_executable(client client/client.cpp ${SOURCE_FILES})
 add_executable(server server/server.cpp ${SOURCE_FILES})
 
 target_link_libraries(client ${Boost_LIBRARIES})
