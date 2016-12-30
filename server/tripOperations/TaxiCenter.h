@@ -42,6 +42,7 @@ public:
         trips = new list<TripInfo *>();
         availableDrivers = new list<Driver *>();
         listeners = new list<EventListener *>();
+        listeners->push_front(new SetTripListener(trips, availableDrivers, this));
     }
 
     ~TaxiCenter();
