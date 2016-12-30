@@ -60,8 +60,6 @@ set(SOURCE_FILES
         server/sockets/Udp.h
         server/managment/DataSender.cpp
         server/managment/DataSender.h
-        #server/listeners/MatchTripToDriver.cpp
-        #server/listeners/MatchTripToDriver.h
         server/listeners/SetTripListener.cpp
         server/listeners/SetTripListener.h)
 

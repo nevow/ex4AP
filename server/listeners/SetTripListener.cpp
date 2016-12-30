@@ -13,6 +13,9 @@ SetTripListener::SetTripListener(
 void SetTripListener::notify() {
     // set the earliest trip info to the Closest Driver.
     while ((!(trips->empty())) && (!(availableDrivers->empty()))) {
-        taxiCenter->setDriverToTi(taxiCenter->getUrgentTi());
+        TripInfo *ti = taxiCenter->getUrgentTi();
+        if (ti != NULL) {
+            taxiCenter->setDriverToTi(ti);
+        }
     }
 };

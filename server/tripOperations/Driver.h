@@ -70,7 +70,7 @@ public:
 
     void updateSatisfaction(int grade);
 
-    void moveOneStep(int clock);
+    void moveOneStep();
 
     bool operator==(const Driver &otherDriver) const;
 

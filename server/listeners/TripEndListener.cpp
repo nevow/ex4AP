@@ -62,8 +62,6 @@ void TripEndListener::notify() {
         tc->getAvailableDrivers()->push_back(driver);
         delete (ti);               // delete the trip info
         driver->setTi(NULL);       // set the trip info to NULL
-        tc->removeListener(this);  // remove the event listener
-        delete this;
     }
 }
 

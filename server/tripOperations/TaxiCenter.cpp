@@ -146,7 +146,7 @@ Driver *TaxiCenter::getClosestDriver(Point *start) {
  * @param d driver to add to the employees list.s
  */
 void TaxiCenter::addDriver(Driver *d) {
-    listeners->push_back(new TripEndListener(d, this));
+    listeners->push_front(new TripEndListener(d, this));
     TripInfo *tripInfo = getUrgentTi();
     if (tripInfo) {
         d->setTi(tripInfo);
@@ -157,20 +157,19 @@ void TaxiCenter::addDriver(Driver *d) {
 }
 
 /**
- * search the earliest trip info in the trips list and return it.
+ * search the trip info that match the time in the trips list and return it.
  * @return the urgent tripInfo
  */
 TripInfo *TaxiCenter::getUrgentTi() {
-    int time = trips->front()->getTripTime();
     TripInfo *tripInfo = NULL;
     TripInfo *temp = NULL;
     if (!(trips->empty())) {
-        // search the earliest trip info and save a pointer to him
+        // search the trip info that match the time
         for (std::list<TripInfo *>::const_iterator iterator = trips->begin(),
                      end = trips->end(); iterator != end; ++iterator) {
-            if ((*iterator)->getTripTime() <= time) {
+            if ((*iterator)->getTripTime() == clock) {
                 tripInfo = (*iterator);
-                time = tripInfo->getTripTime();
+                break;
             }
         }
         // move all the trips info to the back of the list, until it's match to the one we found.
@@ -212,20 +211,31 @@ void TaxiCenter::setDriverToTi(TripInfo *ti) {
     // get the closest available driver, assign him with the trip info.
     Driver *d = getClosestDriver(ti->getStart());
     d->setTi(ti);
+    /*char buffer[50];
+    int flag = 1;
+    do {
+        socket->receiveData(buffer, sizeof(buffer));
+        if (!strcmp(buffer, "waiting_for_trip")) {
+            flag = 0;
+        } else {
+            socket->sendData("continue");
+        }
+    } while (flag);*/
+    socket->sendData("2");
     DataSender<TripInfo>::sendData(socket, ti);
-    cout << "sent trip info from the taxk center" << endl;
+    cout << "sent trip info from the taxi center" << endl;
     employees->push_back(d);
 }
 
 /**
  * iterate over all the drivers and tell them to move.
- * @param clock is the time at the world
  */
-void TaxiCenter::moveAll(int clock) {
+void TaxiCenter::moveAll() {
+    ++clock;
     // iterate over all drivers tell them to move.
     for (std::list<Driver *>::const_iterator iterator = employees->begin(),
                  end = employees->end(); iterator != end; ++iterator) {
-        (*iterator)->moveOneStep((clock));
+        (*iterator)->moveOneStep();
     }
     // copy all listeners to a temp list
     std::list<EventListener *> temp;
