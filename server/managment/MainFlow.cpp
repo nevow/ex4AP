@@ -4,6 +4,7 @@
 
 #include "MainFlow.h"
 #include "DataSender.h"
+#include "DataSender.cpp"
 
 using namespace std;
 
@@ -11,7 +12,10 @@ using namespace std;
  * constructor.
  * initialize the environment, get map, obstacles and create a SystemOperations.
  */
-MainFlow::MainFlow() {
+MainFlow::MainFlow(int ip) {
+
+    sock = new Udp(1, ip);
+    sock->initialize();
 
     int rows, columns, obstacleNum;
 
@@ -23,7 +27,7 @@ MainFlow::MainFlow() {
     obstacleNum = ProperInput::validInt();
     cin.ignore();
 
-    so = new SystemOperations(map);
+    so = new SystemOperations(map, sock);
 
     // make the obstacles List from the input
     for (; obstacleNum > 0; obstacleNum--) {
@@ -36,14 +40,12 @@ MainFlow::MainFlow() {
 /**
  * get inputs from user and follow the commands.
  */
-void MainFlow::input(int ip) {
+void MainFlow::input() {
     int choice;
     int id, drivers_num, taxi_type, num_passengers, trip_time;
     double tariff;
     char trash, manufacturer, color;
 
-    Socket *sock = new Udp(1, ip);
-    sock->initialize();
 
     char buf[100];
 
