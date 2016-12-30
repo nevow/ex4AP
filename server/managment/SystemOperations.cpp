@@ -10,10 +10,10 @@
  * @param map1 the map to do on it the operations
  * @param obs is a lists of obstacles.
  */
-SystemOperations::SystemOperations(Map *map1) {
+SystemOperations::SystemOperations(Map *map1, Socket *socket) {
     map = map1;
     obstacles = new list<Node *>;
-    tc = new TaxiCenter();
+    tc = new TaxiCenter(socket);
     x = map->getColumns();
     y = map->getRows();
 }

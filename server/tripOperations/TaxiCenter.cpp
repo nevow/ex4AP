@@ -7,7 +7,7 @@
 #include "../listeners/SetTripListener.h"
 #include "../managment/DataSender.h"
 
-TaxiCenter::TaxiCenter() {
+TaxiCenter::TaxiCenter(Socket *sock) : socket(sock) {
     employees = new list<Driver *>();
     locations = new list<Node *>();
     cabs = new list<Taxi *>();
@@ -212,10 +212,8 @@ void TaxiCenter::setDriverToTi(TripInfo *ti) {
     // get the closest available driver, assign him with the trip info.
     Driver *d = getClosestDriver(ti->getStart());
     d->setTi(ti);
-    Socket *sock = new Udp(1, d->getPort());
-    DataSender<TripInfo>::sendData(sock, ti);
-    delete sock;
-    cout << " sent trip info from the taxk center" << endl;
+    DataSender<TripInfo>::sendData(socket, ti);
+    cout << "sent trip info from the taxk center" << endl;
     employees->push_back(d);
 }
 

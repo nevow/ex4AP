@@ -23,7 +23,7 @@ private:
 
 public:
 
-    SystemOperations(Map *map);
+    SystemOperations(Map *map, Socket *socket);
 
     ~SystemOperations() {
         delete (map);

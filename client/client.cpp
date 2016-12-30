@@ -51,9 +51,9 @@ int main(int argc, char *argv[]) {
             cout << "sent waiting for trips" << endl;
 
             // no trip info to move with
-            if (!strcmp(buffer, "9")) {
+            /*if (!strcmp(buffer, "9")) {
                 continue;
-            }
+            }*/
             // deserialize the trip info from the server
             ti = DataSender<TripInfo>::receiveData(sock);
             cout << "received trip" << endl;

@@ -26,6 +26,7 @@ private:
     list<TripInfo *> *trips;
     list<Driver *> *availableDrivers;
     list<EventListener *> *listeners;
+    Socket *socket;
 
 public:
 
@@ -34,7 +35,7 @@ public:
             : employees(employees), locations(locations), cabs(cabs), trips(trips),
               availableDrivers(employees) {}
 
-    TaxiCenter();
+    TaxiCenter(Socket *sock);
 
     ~TaxiCenter();
 
