@@ -65,33 +65,33 @@ int main(int argc, char *argv[]) {
             sock->sendData("waiting_for_trip");      // tell the server that the client is waiting
             cout << "sent waiting for trips" << endl;
 
-            char buf[1024];
             // wait to receive the trip info from the server
-            sock->reciveData(buf, sizeof(buf));
+            sock->reciveData(buffer, sizeof(buffer));
             cout << "received trip" << endl;
 
             // no trip info to move with
-            if (!strcmp(buf, "9")) {
+            if (!strcmp(buffer, "9")) {
                 continue;
             }
             // deserialize the trip info from the server
             {
-                boost::iostreams::basic_array_source<char> device(buf, 1024);
+                boost::iostreams::basic_array_source<char> device(buffer, 1024);
                 boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
                 boost::archive::binary_iarchive ia(s2);
                 ia >> ti;
             }
             driver->setTi(ti);                     // set the driver with the trip info
         }
-        char buf1[1024];
         //sock->sendData("waiting_for_orders");      // tell the server that the client is waiting
         cout << "sent waiting for orders" << endl;
-        sock->reciveData(buf1, sizeof(buf1));  // wait to receive the orders from the server
+        sock->reciveData(buffer, sizeof(buffer));  // wait to receive the orders from the server
 
         // if the client received the advance order
-        if (!strcmp(buf1, "9")) {
+        if (!strcmp(buffer, "9")) {
             clock++;
             driver->moveOneStep(clock);                 // move the driver one step
+            cout << *(driver->getCab()->getLocation()->getP());
+
             if (driver->getTi()->checkEnd(cab->getLocation()->getP())) { // if reached the end
                 delete ti;
                 driver->setTi(NULL);
