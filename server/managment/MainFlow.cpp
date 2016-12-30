@@ -3,6 +3,8 @@
 //
 
 #include "MainFlow.h"
+#include "DataSender.h"
+#include "DataSender.cpp"
 
 using namespace std;
 
@@ -58,29 +60,16 @@ void MainFlow::input(int ip) {
                     char buffer[1024];
                     cout << "waiting for driver" << endl;
                     // receive the driver from the client
-                    udp.reciveData(buffer, sizeof(buffer));
+                    //udp.reciveData(buffer, sizeof(buffer));
 
-                    cout << "received driver" << endl;
                     Driver *driver;
-                    {
-                        boost::iostreams::basic_array_source<char> dev(buffer, 1024);
-                        boost::iostreams::stream<boost::iostreams::basic_array_source<char>> s2(
-                                dev);
-                        boost::archive::binary_iarchive ia(s2);
-                        ia >> driver;
-                    }
+                    driver = DataSender<Driver>::receiveData(&udp);
+                    cout << "received driver" << endl;
+
                     // assign the Driver with the taxi, serialize the taxi, send it to the client
                     Taxi *taxi = so->assignDriver(driver);
-                    {
-                        std::string serial_str;
-                        boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-                        boost::iostreams::stream<boost::iostreams::back_insert_device<std::string>>
-                                s(inserter);
-                        boost::archive::binary_oarchive oa(s);
-                        oa << taxi;
-                        s.flush();
-                        udp.sendData(serial_str);
-                    }
+                    DataSender<Taxi>::sendData(&udp, taxi);
+
                     cout << "sent taxi" << endl;
                     cout << "waiting for client reply" << endl;
 
@@ -89,17 +78,9 @@ void MainFlow::input(int ip) {
                     udp.reciveData(buf, sizeof(buf));
                     if (!strcmp(buf, "waiting_for_trip")) {
                         TripInfo *ti = driver->getTi();
-                        {
-                            std::string serial_str;
-                            boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-                            boost::iostreams::stream<boost::iostreams::back_insert_device<std::string>> s(
-                                    inserter);
-                            boost::archive::binary_oarchive oa(s);
-                            oa << ti;
-                            s.flush();
-                            udp.sendData(serial_str);
-                            cout << "sent trip info" << endl;
-                        }
+                        DataSender<TripInfo>::sendData(&udp, ti);
+                        cout << "sent trip info" << endl;
+
                     }
                 }
                 break;
@@ -170,7 +151,7 @@ void MainFlow::input(int ip) {
                 cout << "sent 9" << endl;
                 ++clock;
                 so->moveAll(clock);
-                
+
                 break;
             }
 
