@@ -43,8 +43,8 @@ void MainFlow::input(int ip) {
     double tariff;
     char trash, manufacturer, color;
 
-    Udp udp(1, ip);
-    udp.initialize();
+    Socket *sock = new Udp(1, ip);
+    sock->initialize();
 
     do {
         choice = ProperInput::validInt();
@@ -62,23 +62,22 @@ void MainFlow::input(int ip) {
                     // receive the driver from the client
                     //udp.reciveData(buffer, sizeof(buffer));
 
-                    Driver *driver;
-                    driver = DataSender<Driver>::receiveData(&udp);
+                    Driver *driver = DataSender<Driver>::receiveData(sock);
                     cout << "received driver" << endl;
 
                     // assign the Driver with the taxi, serialize the taxi, send it to the client
                     Taxi *taxi = so->assignDriver(driver);
-                    DataSender<Taxi>::sendData(&udp, taxi);
+                    DataSender<Taxi>::sendData(sock, taxi);
 
                     cout << "sent taxi" << endl;
                     cout << "waiting for client reply" << endl;
 
                     char buf[1024];
                     // receive the client's status
-                    udp.reciveData(buf, sizeof(buf));
+                    sock->reciveData(buf, sizeof(buf));
                     if (!strcmp(buf, "waiting_for_trip")) {
                         TripInfo *ti = driver->getTi();
-                        DataSender<TripInfo>::sendData(&udp, ti);
+                        DataSender<TripInfo>::sendData(sock, ti);
                         cout << "sent trip info" << endl;
 
                     }
@@ -147,7 +146,7 @@ void MainFlow::input(int ip) {
 
                 // clock time - move one step
             case 9: {
-                udp.sendData("9");
+                sock->sendData("9");
                 cout << "sent 9" << endl;
                 ++clock;
                 so->moveAll(clock);
@@ -164,5 +163,5 @@ void MainFlow::input(int ip) {
     } while (choice != 7);
 
     // send message to the client to shut down
-    udp.sendData("exit");
+    sock->sendData("exit");
 }

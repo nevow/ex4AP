@@ -23,6 +23,7 @@ private:
     Satisfaction *satisfaction;
     Taxi *cab;
     int vehicleId;
+    int port;
 
 public:
 
@@ -30,7 +31,9 @@ public:
 
     Driver(int id, int age, const MartialStatues &status, int experience, int vehicle_id);
 
-    Driver(Driver *d);
+    Driver(int id, int age, const MartialStatues &status, int experience, int vehicle_id, int port);
+
+    //Driver(Driver *d);
 
     ~Driver() {
         delete (satisfaction);
@@ -83,6 +86,7 @@ public:
         ar & satisfaction;
         ar & cab;
         ar & vehicleId;
+        ar & port;
     }
 
 };

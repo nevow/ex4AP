@@ -6,13 +6,16 @@
 #include "../server/managment/ProperInput.h"
 #include "../server/tripOperations/Driver.h"
 #include "../server/enum/MartialStatuesFactory.h"
+#include "../server/managment/DataSender.h"
+#include "../server/managment/DataSender.cpp"
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
     int clock = 0;
+    int portNumber = atoi(argv[2]);
     // create a socket for transferring data between the server and the client
-    Socket *sock = new Udp(0, atoi(argv[2]));
+    Socket *sock = new Udp(0, portNumber);
     sock->initialize();
 
     // get a driver with user input
@@ -26,37 +29,19 @@ int main(int argc, char *argv[]) {
     cin >> trash;
     vehicleId = ProperInput::validInt();
     cin.ignore();
+    char buffer[50];
 
     // create a driver with the user input
     Driver *driver = new Driver(id, age, MartialStatuesFactory::getMartialStatus(status),
-                                experience, vehicleId);
-
-    // serialize the driver
-    {
-        std::string serial_str;
-        boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-        boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
-        boost::archive::binary_oarchive oa(s);
-        oa << driver;
-        s.flush();
-        sock->sendData(serial_str);
-    }
-
-    // send the driver using the socket
-    char buffer[1024];
+                                experience, vehicleId, portNumber);
+    // serialize and send the driver
+    DataSender<Driver>::sendData(sock, driver);
     cout << "sent driver" << endl;
-    sock->reciveData(buffer, sizeof(buffer));   // wait to receive a cab from the server
-    cout << "got taxi" << endl;
 
     // deserialize the taxi from the server
-    Taxi *cab;
-    {
-        boost::iostreams::basic_array_source<char> device(buffer, 1024);
-        boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
-        boost::archive::binary_iarchive ia(s2);
-        ia >> cab;
-    }
-    driver->setCab(cab);                           // set the cab to the driver
+    Taxi *cab = DataSender<Taxi>::receiveData(sock); // wait to receive a cab from the server
+    cout << "got taxi" << endl;
+    driver->setCab(cab);                             // set the cab to the driver
 
     TripInfo *ti = NULL;
     // do while the server still sends orders different from the exit order "exit"
@@ -65,21 +50,13 @@ int main(int argc, char *argv[]) {
             sock->sendData("waiting_for_trip");      // tell the server that the client is waiting
             cout << "sent waiting for trips" << endl;
 
-            // wait to receive the trip info from the server
-            sock->reciveData(buffer, sizeof(buffer));
-            cout << "received trip" << endl;
-
             // no trip info to move with
             if (!strcmp(buffer, "9")) {
                 continue;
             }
             // deserialize the trip info from the server
-            {
-                boost::iostreams::basic_array_source<char> device(buffer, 1024);
-                boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
-                boost::archive::binary_iarchive ia(s2);
-                ia >> ti;
-            }
+            ti = DataSender<TripInfo>::receiveData(sock);
+            cout << "received trip" << endl;
             driver->setTi(ti);                     // set the driver with the trip info
         }
         //sock->sendData("waiting_for_orders");      // tell the server that the client is waiting

@@ -4,6 +4,12 @@
 
 #include "DataSender.h"
 
+/**
+ *
+ * @tparam T type of item
+ * @param sock socket to transffer the data with
+ * @param item to send using the socket
+ */
 template<class T>
 void DataSender<T>::sendData(Socket *sock, T *item) {
     std::string serial_str;
@@ -18,6 +24,12 @@ void DataSender<T>::sendData(Socket *sock, T *item) {
     sock->sendData(serial_str);
 }
 
+/**
+ *
+ * @tparam T type of item
+ * @param sock socket to transffer the data with
+ * @return the T item received
+ */
 template<class T>
 T *DataSender<T>::receiveData(Socket *sock) {
     char buffer[1024];
