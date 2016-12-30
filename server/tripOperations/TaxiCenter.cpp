@@ -4,7 +4,19 @@
 
 #include "TaxiCenter.h"
 #include "../listeners/TripEndListener.h"
+#include "../listeners/SetTripListener.h"
 #include "../managment/DataSender.h"
+
+TaxiCenter::TaxiCenter() {
+    employees = new list<Driver *>();
+    locations = new list<Node *>();
+    cabs = new list<Taxi *>();
+    trips = new list<TripInfo *>();
+    availableDrivers = new list<Driver *>();
+    listeners = new list<EventListener *>();
+    EventListener *el = new SetTripListener(trips, availableDrivers, this);
+    listeners->push_front(el);
+}
 
 /**
  * destructor.

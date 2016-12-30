@@ -11,7 +11,6 @@
 #include "../coordinates/Point.h"
 #include "Passenger.h"
 #include "../listeners/EventListener.h"
-#include "../listeners/SetTripListener.h"
 #include "../sockets/Socket.h"
 #include "../sockets/Udp.h"
 
@@ -35,15 +34,7 @@ public:
             : employees(employees), locations(locations), cabs(cabs), trips(trips),
               availableDrivers(employees) {}
 
-    TaxiCenter() {
-        employees = new list<Driver *>();
-        locations = new list<Node *>();
-        cabs = new list<Taxi *>();
-        trips = new list<TripInfo *>();
-        availableDrivers = new list<Driver *>();
-        listeners = new list<EventListener *>();
-        listeners->push_front(new SetTripListener(trips, availableDrivers, this));
-    }
+    TaxiCenter();
 
     ~TaxiCenter();
 
