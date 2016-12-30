@@ -1,57 +1,73 @@
-# weichsn1 305108706
-# darsham1 203393210
+all: server.out client.out
 
-a.out: main.o BFS.o Map.o Node.o Point.o TripEndListener.o MainFlow.o SystemOperations.o Cab.o LuxuryCab.o Driver.o Passenger.o Satisfaction.o TaxiCenter.o TripInfo.o ProperInput.o
-	g++ -std=c++0x main.o BFS.o Map.o Node.o Point.o TripEndListener.o MainFlow.o SystemOperations.o Cab.o LuxuryCab.o Driver.o Passenger.o Satisfaction.o TaxiCenter.o TripInfo.o ProperInput.o
+server.out: server.o Map.o Node.o Point.o TripEndListener.o SetTripListener.o BFS.o DataSender.o MainFlow.o ProperInput.o SystemOperations.o Socket.o Udp.o Cab.o LuxuryCab.o Driver.o Passenger.o Satisfaction.o TaxiCenter.o TripInfo.o
+	g++ -o server.out -std=c++0x server.o Map.o Node.o Point.o TripEndListener.o SetTripListener.o BFS.o DataSender.o MainFlow.o ProperInput.o SystemOperations.o Socket.o Udp.o Cab.o LuxuryCab.o Driver.o Passenger.o Satisfaction.o TaxiCenter.o TripInfo.o -lboost_serialization
 
-main.o: src/main.cpp
-	g++ -std=c++0x -c src/main.cpp
+client.out: client.o Map.o Node.o Point.o TripEndListener.o SetTripListener.o BFS.o DataSender.o MainFlow.o ProperInput.o SystemOperations.o Socket.o Udp.o Cab.o LuxuryCab.o Driver.o Passenger.o Satisfaction.o TaxiCenter.o TripInfo.o
+	g++ -o client.out -std=c++0x client.o Map.o Node.o Point.o TripEndListener.o SetTripListener.o BFS.o DataSender.o MainFlow.o ProperInput.o SystemOperations.o Socket.o Udp.o Cab.o LuxuryCab.o Driver.o Passenger.o Satisfaction.o TaxiCenter.o TripInfo.o -lboost_serialization
 
-BFS.o: src/managment/BFS.cpp src/managment/BFS.h src/coordinates/Grid.h src/coordinates/CoordinatedItem.h
-	g++ -std=c++0x -c src/managment/BFS.cpp
+client.o: src/client/client.cpp
+	g++ -std=c++0x -c src/client/client.cpp
 
-Map.o: src/coordinates/Map.cpp src/coordinates/Map.h
-	g++ -std=c++0x -c src/coordinates/Map.cpp
+server.o: src/server/server.cpp
+	g++ -std=c++0x -c src/server/server.cpp
 
-Node.o: src/coordinates/Node.cpp src/coordinates/Node.h
-	g++ -std=c++0x -c src/coordinates/Node.cpp
+Map.o: src/server/coordinates/Map.cpp src/server/coordinates/Map.h
+	g++ -std=c++0x -c src/server/coordinates/Map.cpp
 
-Point.o: src/coordinates/Point.cpp src/coordinates/Point.h
-	g++ -std=c++0x -c src/coordinates/Point.cpp
+Node.o: src/server/coordinates/Node.cpp src/server/coordinates/Node.h
+	g++ -std=c++0x -c src/server/coordinates/Node.cpp
 
-TripEndListener.o: src/listeners/TripEndListener.cpp src/listeners/TripEndListener.h
-	g++ -std=c++0x -c src/listeners/TripEndListener.cpp
+Point.o: src/server/coordinates/Point.cpp src/server/coordinates/Point.h
+	g++ -std=c++0x -c src/server/coordinates/Point.cpp
 
-MainFlow.o: src/managment/MainFlow.cpp src/managment/MainFlow.h src/enum/CarManufactureFactory.h src/enum/ColorFactory.h src/enum/MartialStatuesFactory.h
-	g++ -std=c++0x -c src/managment/MainFlow.cpp
+TripEndListener.o: src/server/listeners/TripEndListener.cpp src/server/listeners/TripEndListener.h
+	g++ -std=c++0x -c src/server/listeners/TripEndListener.cpp
 
-SystemOperations.o: src/managment/SystemOperations.cpp src/managment/SystemOperations.h
-	g++ -std=c++0x -c src/managment/SystemOperations.cpp
+SetTripListener.o: src/server/listeners/SetTripListener.cpp src/server/listeners/SetTripListener.h
+	g++ -std=c++0x -c src/server/listeners/SetTripListener.cpp
 
-Cab.o: src/taxi/Cab.cpp src/taxi/Cab.h
-	g++ -std=c++0x -c src/taxi/Cab.cpp
+BFS.o: src/server/managment/BFS.cpp src/server/managment/BFS.h src/server/coordinates/Grid.h src/server/coordinates/CoordinatedItem.h
+	g++ -std=c++0x -c src/server/managment/BFS.cpp
 
-LuxuryCab.o: src/taxi/LuxuryCab.cpp src/taxi/LuxuryCab.h
-	g++ -std=c++0x -c src/taxi/LuxuryCab.cpp
+DataSender.o: src/server/managment/DataSender.cpp src/server/managment/DataSender.h
+	g++ -std=c++0x -c src/server/managment/DataSender.cpp
 
-Driver.o: src/tripOperations/Driver.cpp src/tripOperations/Driver.h src/enum/MartialStatues.h
-	g++ -std=c++0x -c src/tripOperations/Driver.cpp
+MainFlow.o: src/server/managment/MainFlow.cpp src/server/managment/MainFlow.h src/server/enum/CarManufactureFactory.h src/server/enum/ColorFactory.h src/server/enum/MartialStatuesFactory.h
+	g++ -std=c++0x -c src/server/managment/MainFlow.cpp
 
-Passenger.o: src/tripOperations/Passenger.cpp src/tripOperations/Passenger.h
-	g++ -std=c++0x -c src/tripOperations/Passenger.cpp
+ProperInput.o: src/server/managment/ProperInput.cpp src/server/managment/ProperInput.h
+	g++ -std=c++0x -c src/server/managment/ProperInput.cpp
 
-Satisfaction.o: src/tripOperations/Satisfaction.cpp src/tripOperations/Satisfaction.h
-	g++ -std=c++0x -c src/tripOperations/Satisfaction.cpp
+SystemOperations.o: src/server/managment/SystemOperations.cpp src/server/managment/SystemOperations.h
+	g++ -std=c++0x -c src/server/managment/SystemOperations.cpp
 
-TaxiCenter.o: src/tripOperations/TaxiCenter.cpp src/tripOperations/TaxiCenter.h src/taxi/Taxi.h src/enum/Color.h src/enum/CarManufacture.h src/listeners/EventListener.h
-	g++ -std=c++0x -c src/tripOperations/TaxiCenter.cpp
+Socket.o: src/server/sockets/Socket.cpp
+	g++ -std=c++0x -c src/server/sockets/Socket.cpp
 
-TripInfo.o: src/tripOperations/TripInfo.cpp src/tripOperations/TripInfo.h
-	g++ -std=c++0x -c src/tripOperations/TripInfo.cpp
+Udp.o: src/server/sockets/Udp.cpp
+	g++ -std=c++0x -c src/server/sockets/Udp.cpp
 
-ProperInput.o:src/managment/ProperInput.cpp src/managment/ProperInput.h
-	g++ -std=c++0x -c src/managment/ProperInput.cpp
+Cab.o: src/server/taxi/Cab.cpp src/server/taxi/Cab.h
+	g++ -std=c++0x -c src/server/taxi/Cab.cpp
+
+LuxuryCab.o: src/server/taxi/LuxuryCab.cpp src/server/taxi/LuxuryCab.h
+	g++ -std=c++0x -c src/server/taxi/LuxuryCab.cpp
+
+Driver.o: src/server/tripOperations/Driver.cpp src/server/tripOperations/Driver.h src/server/enum/MartialStatues.h
+	g++ -std=c++0x -c src/server/tripOperations/Driver.cpp
+
+Passenger.o: src/server/tripOperations/Passenger.cpp src/server/tripOperations/Passenger.h
+	g++ -std=c++0x -c src/server/tripOperations/Passenger.cpp
+
+Satisfaction.o: src/server/tripOperations/Satisfaction.cpp src/server/tripOperations/Satisfaction.h
+	g++ -std=c++0x -c src/server/tripOperations/Satisfaction.cpp
+
+TaxiCenter.o: src/server/tripOperations/TaxiCenter.cpp src/server/tripOperations/TaxiCenter.h src/server/taxi/Taxi.h src/server/enum/Color.h src/server/enum/CarManufacture.h src/server/listeners/EventListener.h
+	g++ -std=c++0x -c src/server/tripOperations/TaxiCenter.cpp
+
+TripInfo.o: src/server/tripOperations/TripInfo.cpp src/server/tripOperations/TripInfo.h
+	g++ -std=c++0x -c src/server/tripOperations/TripInfo.cpp
 
 clean:
 	rm -f *.o a.out
-
