@@ -8,63 +8,64 @@ find_package(Boost 1.58.0 COMPONENTS serialization system)
 include_directories(${Boost_INCLUDE_DIR})
 
 set(SOURCE_FILES
-        server/coordinates/Point.cpp
-        server/coordinates/Point.h
-        server/coordinates/Map.cpp
-        server/coordinates/Map.h
-        server/coordinates/Node.cpp
-        server/coordinates/Grid.h
-        server/coordinates/CoordinatedItem.h
-        server/coordinates/Node.h
+        src/server/coordinates/Point.cpp
+        src/server/coordinates/Point.h
+        src/server/coordinates/Map.cpp
+        src/server/coordinates/Map.h
+        src/server/coordinates/Node.cpp
+        src/server/coordinates/Grid.h
+        src/server/coordinates/CoordinatedItem.h
+        src/server/coordinates/Node.h
 
-        server/tripOperations/Driver.cpp
-        server/tripOperations/Driver.h
-        server/tripOperations/TripInfo.cpp
-        server/tripOperations/Satisfaction.cpp
-        server/tripOperations/Satisfaction.h
-        server/tripOperations/TripInfo.h
-        server/tripOperations/TaxiCenter.cpp
-        server/tripOperations/TaxiCenter.h
-        server/tripOperations/Passenger.cpp
-        server/tripOperations/Passenger.h
+        src/server/tripOperations/Driver.cpp
+        src/server/tripOperations/Driver.h
+        src/server/tripOperations/TripInfo.cpp
+        src/server/tripOperations/Satisfaction.cpp
+        src/server/tripOperations/Satisfaction.h
+        src/server/tripOperations/TripInfo.h
+        src/server/tripOperations/TaxiCenter.cpp
+        src/server/tripOperations/TaxiCenter.h
+        src/server/tripOperations/Passenger.cpp
+        src/server/tripOperations/Passenger.h
 
-        server/managment/BFS.cpp
-        server/managment/BFS.h
-        server/managment/SystemOperations.cpp
-        server/managment/SystemOperations.h
-        server/managment/MainFlow.cpp
-        server/managment/MainFlow.h
-        server/managment/ProperInput.cpp
-        server/managment/ProperInput.h
+        src/server/managment/BFS.cpp
+        src/server/managment/BFS.h
+        src/server/managment/SystemOperations.cpp
+        src/server/managment/SystemOperations.h
+        src/server/managment/MainFlow.cpp
+        src/server/managment/MainFlow.h
+        src/server/managment/ProperInput.cpp
+        src/server/managment/ProperInput.h
 
-        server/taxi/LuxuryCab.cpp
-        server/taxi/LuxuryCab.h
-        server/taxi/Taxi.h
-        server/taxi/Cab.cpp
-        server/taxi/Cab.h
+        src/server/taxi/LuxuryCab.cpp
+        src/server/taxi/LuxuryCab.h
+        src/server/taxi/Taxi.h
+        src/server/taxi/Cab.cpp
+        src/server/taxi/Cab.h
 
-        server/listeners/TripEndListener.cpp
-        server/listeners/TripEndListener.h
-        server/listeners/EventListener.h
+        src/server/listeners/TripEndListener.cpp
+        src/server/listeners/TripEndListener.h
+        src/server/listeners/EventListener.h
 
-        server/enum/MartialStatues.h
-        server/enum/CarManufacture.h
-        server/enum/Color.h
-        server/enum/MartialStatuesFactory.h
-        server/enum/ColorFactory.h
-        server/enum/CarManufactureFactory.h
+        src/server/enum/MartialStatues.h
+        src/server/enum/CarManufacture.h
+        src/server/enum/Color.h
+        src/server/enum/MartialStatuesFactory.h
+        src/server/enum/ColorFactory.h
+        src/server/enum/CarManufactureFactory.h
 
-        server/sockets/Socket.cpp
-        server/sockets/Socket.h
-        server/sockets/Udp.cpp
-        server/sockets/Udp.h
-        server/managment/DataSender.cpp
-        server/managment/DataSender.h
-        server/listeners/SetTripListener.cpp
-        server/listeners/SetTripListener.h)
+        src/server/sockets/Socket.cpp
+        src/server/sockets/Socket.h
+        src/server/sockets/Udp.cpp
+        src/server/sockets/Udp.h
+        src/server/managment/DataSender.cpp
+        src/server/managment/DataSender.h
 
-add_executable(client client/client.cpp ${SOURCE_FILES})
-add_executable(server server/server.cpp ${SOURCE_FILES})
+        src/server/listeners/SetTripListener.cpp
+        src/server/listeners/SetTripListener.h)
 
-target_link_libraries(client ${Boost_LIBRARIES})
-target_link_libraries(server ${Boost_LIBRARIES})
+add_executable(src/client src/client/client.cpp ${SOURCE_FILES})
+add_executable(src/server src/server/server.cpp ${SOURCE_FILES})
+
+target_link_libraries(src/client ${Boost_LIBRARIES})
+target_link_libraries(src/server ${Boost_LIBRARIES})
