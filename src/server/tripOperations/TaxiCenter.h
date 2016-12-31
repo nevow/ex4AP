@@ -1,5 +1,5 @@
 //
-// Created by nevo on 01/12/16.
+// TaxiCenter.
 //
 
 #ifndef EX1_TAXICENTER_H

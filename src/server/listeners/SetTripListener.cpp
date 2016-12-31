@@ -18,9 +18,10 @@ SetTripListener::SetTripListener(
  * set the trip info that match the current clock to the Closest Driver.
  */
 void SetTripListener::notify() {
-    // set the earliest trip info to the Closest Driver.
+    // set the trip that match the clock to the Closest Driver.
     while ((!(trips->empty())) && (!(availableDrivers->empty()))) {
         TripInfo *ti = taxiCenter->getUrgentTi();
+        // if there is a trip info
         if (ti != NULL) {
             taxiCenter->setDriverToTi(ti);
         } else {

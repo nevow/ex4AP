@@ -1,5 +1,5 @@
 //
-// Created by nevo on 30/12/16.
+// SetTripListener.
 //
 
 #ifndef EX4AP_MATCHTRIPTODRIVERLISTENER_H
