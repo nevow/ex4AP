@@ -70,4 +70,4 @@ TripInfo.o: src/server/tripOperations/TripInfo.cpp src/server/tripOperations/Tri
 	g++ -std=c++0x -c src/server/tripOperations/TripInfo.cpp
 
 clean:
-	rm -f *.o a.out
+	rm -f *.o server.out client.out
