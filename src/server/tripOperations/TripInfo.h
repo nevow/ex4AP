@@ -31,8 +31,8 @@ public:
 
     TripInfo() {};
 
-    TripInfo(int rideId, Point *start, Point *destination, int amountOfPassengers, double tariff,
-             int tripTime);
+    TripInfo(int rideId, Point *start, Point *destination,
+             int amountOfPassengers, double tariff, int tripTime);
 
     ~TripInfo() {
         while (!passengers->empty()) {

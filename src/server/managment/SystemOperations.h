@@ -14,6 +14,7 @@
 using namespace std;
 
 class SystemOperations {
+
 private:
     int x;
     int y;

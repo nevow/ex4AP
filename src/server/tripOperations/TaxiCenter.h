@@ -62,7 +62,7 @@ public:
 
     void moveAll();
 
-    void removeListener(EventListener *el);
+    //void removeListener(EventListener *el);
 
     //TripInfo *answerCall(Passenger *p);
 

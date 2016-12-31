@@ -31,7 +31,7 @@ public:
     int initialize();
 
     /**
-     * sending the input data to the socket who connect to this socket, check if send successfully.
+     * sending the input data to the socket who connect to this socket,check if send successfully.
      * @param data to send
      * @return int number representing the return status
      */

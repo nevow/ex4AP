@@ -5,7 +5,6 @@
 #include "Passenger.h"
 
 /**
- *
  * @param start point of this passenger trip
  * @param destination point of this passenger trip
  */

@@ -23,7 +23,9 @@
 
 template<class T>
 class DataSender {
+
 public:
+
     static void sendData(Socket *sock, T *item);
 
     static T *receiveData(Socket *sock);

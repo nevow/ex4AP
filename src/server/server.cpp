@@ -1,5 +1,5 @@
 //
-// Created by nevo on 27/12/16.
+// the main of the server.
 //
 
 #include <iostream>

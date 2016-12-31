@@ -5,7 +5,6 @@
 #include "DataSender.h"
 
 /**
- *
  * @tparam T type of item
  * @param sock socket to transfer the data with
  * @param item to send using the socket
@@ -25,7 +24,6 @@ void DataSender<T>::sendData(Socket *sock, T *item) {
 }
 
 /**
- *
  * @tparam T type of item
  * @param sock socket to transfer the data with
  * @return the T item received
