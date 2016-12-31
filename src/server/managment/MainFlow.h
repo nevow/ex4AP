@@ -18,7 +18,6 @@
 
 class MainFlow {
 private:
-    int clock = 0;
     SystemOperations *so;
     Socket *sock;
 public:

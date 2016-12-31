@@ -83,8 +83,7 @@ Point *SystemOperations::getDriverLocation(int id) {
 
 /**
  * move all the taxi by call Taxi Center's "moveAll"
- * @param clock is the time at the world
  */
-void SystemOperations::moveAll(int clock) {
-    tc->moveAll(clock);
+void SystemOperations::moveAll() {
+    tc->moveAll();
 }

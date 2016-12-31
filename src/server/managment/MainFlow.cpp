@@ -73,12 +73,12 @@ void MainFlow::input() {
                     cout << "waiting for client reply" << endl;           //***********************
 
                     // receive the client's status
-                    sock->receiveData(buf, sizeof(buf));
+                    /*sock->receiveData(buf, sizeof(buf));
                     if (!strcmp(buf, "waiting_for_trip")) {
                         TripInfo *ti = driver->getTi();
                         DataSender<TripInfo>::sendData(sock, ti);
                         cout << "sent trip info" << endl;
-                    }
+                    }*/
                 }
                 break;
             }
@@ -146,8 +146,7 @@ void MainFlow::input() {
             case 9: {
                 sock->sendData("9");
                 cout << "sent 9" << endl;
-                ++clock;
-                so->moveAll(clock);
+                so->moveAll();
 
                 break;
             }

@@ -49,7 +49,7 @@ public:
 
     Point *getDriverLocation(int id);
 
-    void moveAll(int clock);
+    void moveAll();
 };
 
 

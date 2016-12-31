@@ -27,13 +27,14 @@ private:
     list<Driver *> *availableDrivers;
     list<EventListener *> *listeners;
     Socket *socket;
+    int clock;
 
 public:
 
     TaxiCenter(list<Driver *> *employees, list<Node *> *locations, list<Taxi *> *cabs,
                list<TripInfo *> *trips)
             : employees(employees), locations(locations), cabs(cabs), trips(trips),
-              availableDrivers(employees) {}
+              availableDrivers(employees), clock(0) {}
 
     TaxiCenter(Socket *sock);
 
@@ -59,7 +60,7 @@ public:
 
     void setDriverToTi(TripInfo *ti);
 
-    void moveAll(int clock);
+    void moveAll();
 
     void removeListener(EventListener *el);
 
