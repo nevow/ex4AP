@@ -7,7 +7,7 @@
 /**
  *
  * @tparam T type of item
- * @param sock socket to transffer the data with
+ * @param sock socket to transfer the data with
  * @param item to send using the socket
  */
 template<class T>
@@ -27,7 +27,7 @@ void DataSender<T>::sendData(Socket *sock, T *item) {
 /**
  *
  * @tparam T type of item
- * @param sock socket to transffer the data with
+ * @param sock socket to transfer the data with
  * @return the T item received
  */
 template<class T>
@@ -37,8 +37,7 @@ T *DataSender<T>::receiveData(Socket *sock) {
     T *item;
     {
         boost::iostreams::basic_array_source<char> dev(buffer, 1024);
-        boost::iostreams::stream<boost::iostreams::basic_array_source<char>> s2(
-                dev);
+        boost::iostreams::stream<boost::iostreams::basic_array_source<char>> s2(dev);
         boost::archive::binary_iarchive ia(s2);
         ia >> item;
     }
