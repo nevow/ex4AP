@@ -72,16 +72,13 @@ void MainFlow::input() {
                     cout << "sent taxi" << endl;                          //***********************
                     cout << "waiting for client reply" << endl;           //***********************
 
-                    sock->sendData("2");             // makes the client ready for trip info
                     // receive the client's status
-                    sock->receiveData(buf, sizeof(buf));
+                    /*sock->receiveData(buf, sizeof(buf));
                     if (!strcmp(buf, "waiting_for_trip")) {
                         TripInfo *ti = driver->getTi();
-                        if (ti) {
-                            DataSender<TripInfo>::sendData(sock, ti);
-                            cout << "sent trip info" << endl;
-                        }
-                    }
+                        DataSender<TripInfo>::sendData(sock, ti);
+                        cout << "sent trip info" << endl;
+                    }*/
                 }
                 break;
             }
@@ -104,8 +101,6 @@ void MainFlow::input() {
                 cin.ignore();
                 TripInfo *tripInfo = new TripInfo(id, start, end, num_passengers, tariff,
                                                   trip_time);
-
-                //sock->sendData("2");             // makes the client ready for trip info
                 so->addTI(tripInfo);
                 break;
 
@@ -152,6 +147,7 @@ void MainFlow::input() {
                 sock->sendData("9");
                 cout << "sent 9" << endl;
                 so->moveAll();
+
                 break;
             }
 

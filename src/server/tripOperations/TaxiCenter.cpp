@@ -5,7 +5,7 @@
 #include "TaxiCenter.h"
 #include "../listeners/TripEndListener.h"
 #include "../listeners/SetTripListener.h"
-#include "../managment/DataSender.h"
+#include "../managment/DataSender.cpp"
 
 TaxiCenter::TaxiCenter(Socket *sock) : socket(sock) {
     employees = new list<Driver *>();
@@ -142,29 +142,22 @@ Driver *TaxiCenter::getClosestDriver(Point *start) {
 }
 
 /**
- *
  * @param d driver to add to the employees list.s
  */
 void TaxiCenter::addDriver(Driver *d) {
-    listeners->push_front(new TripEndListener(d, this));
-    TripInfo *tripInfo = getUrgentTi();
-    if (tripInfo) {
-        d->setTi(tripInfo);
-        employees->push_back(d);
-    } else {
-        availableDrivers->push_back(d);
-    }
+    listeners->push_back(new TripEndListener(d, this));
+    availableDrivers->push_back(d);
 }
 
 /**
- * search the trip info that match the time in the trips list and return it.
+ * search the earliest trip info in the trips list and return it.
  * @return the urgent tripInfo
  */
 TripInfo *TaxiCenter::getUrgentTi() {
     TripInfo *tripInfo = NULL;
     TripInfo *temp = NULL;
     if (!(trips->empty())) {
-        // search the trip info that match the time
+        // search the earliest trip info and save a pointer to him
         for (std::list<TripInfo *>::const_iterator iterator = trips->begin(),
                      end = trips->end(); iterator != end; ++iterator) {
             if ((*iterator)->getTripTime() == clock) {
@@ -173,15 +166,17 @@ TripInfo *TaxiCenter::getUrgentTi() {
             }
         }
         // move all the trips info to the back of the list, until it's match to the one we found.
-        temp = trips->front();
-        trips->pop_front();
-        while (temp != tripInfo) {
-            trips->push_back(temp);
+        if (tripInfo != NULL) {
             temp = trips->front();
             trips->pop_front();
+            while (temp != tripInfo) {
+                trips->push_back(temp);
+                temp = trips->front();
+                trips->pop_front();
+            }
         }
+        return tripInfo;
     }
-    return tripInfo;
 }
 
 /**
@@ -195,34 +190,22 @@ void TaxiCenter::addTaxi(Taxi *cab) {
  * @param ti to add to the trips list.
  */
 void TaxiCenter::addTI(TripInfo *ti) {
-    // if there is available driver match them
-    if (!availableDrivers->empty()) {
-        setDriverToTi(ti);     // get available driver, assign him with the trip info.
-    } else {
-        trips->push_back(ti);
-    }
+    trips->push_back(ti);
 }
 
 /**
  * @param ti trip info to assign to the driver.
- * @return the driver after the set of the trip info.
  */
 void TaxiCenter::setDriverToTi(TripInfo *ti) {
     // get the closest available driver, assign him with the trip info.
     Driver *d = getClosestDriver(ti->getStart());
     d->setTi(ti);
-    /*char buffer[50];
-    int flag = 1;
-    do {
-        socket->receiveData(buffer, sizeof(buffer));
-        if (!strcmp(buffer, "waiting_for_trip")) {
-            flag = 0;
-        } else {
-            socket->sendData("continue");
-        }
-    } while (flag);*/
-    socket->sendData("2");
-    DataSender<TripInfo>::sendData(socket, ti);
+    socket->sendData("get_ready_for_trip_info");
+    char buffer[1024];
+    socket->receiveData(buffer, 1024);
+    if (!strcmp(buffer, "waiting_for_trip")) {
+        DataSender<TripInfo>::sendData(socket, ti);
+    }
     cout << "sent trip info from the taxi center" << endl;
     employees->push_back(d);
 }
@@ -237,15 +220,9 @@ void TaxiCenter::moveAll() {
                  end = employees->end(); iterator != end; ++iterator) {
         (*iterator)->moveOneStep();
     }
-    // copy all listeners to a temp list
-    std::list<EventListener *> temp;
+    // tell all listener to notify.
     for (std::list<EventListener *>::const_iterator iterator = listeners->begin(),
                  end = listeners->end(); iterator != end; ++iterator) {
-        temp.push_back(*iterator);
-    }
-    // tell all listener to notify.
-    for (std::list<EventListener *>::const_iterator iterator = temp.begin(),
-                 end = temp.end(); iterator != end; ++iterator) {
         (*iterator)->notify();
     }
 }
