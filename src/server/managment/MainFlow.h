@@ -17,10 +17,13 @@
 #include "../taxi/LuxuryCab.h"
 
 class MainFlow {
+
 private:
     SystemOperations *so;
     Socket *sock;
+
 public:
+
     MainFlow(int ip);
 
     ~MainFlow() {

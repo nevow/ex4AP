@@ -7,6 +7,10 @@
 #include "../listeners/SetTripListener.h"
 #include "../managment/DataSender.cpp"
 
+/**
+ * consturctor.
+ * @param sock is the socket of the driver
+ */
 TaxiCenter::TaxiCenter(Socket *sock) : socket(sock) {
     employees = new list<Driver *>();
     locations = new list<Node *>();
@@ -29,35 +33,35 @@ TaxiCenter::~TaxiCenter() {
     }
     delete (employees);
 
-    // delete the employees list
+    // delete the locations list
     while (!locations->empty()) {
         delete (locations->front());
         locations->pop_front();
     }
     delete (locations);
 
-    // delete the employees list
+    // delete the cabs list
     while (!cabs->empty()) {
         delete (cabs->front());
         cabs->pop_front();
     }
     delete (cabs);
 
-    // delete the employees list
+    // delete the trips list
     while (!trips->empty()) {
         delete (trips->front());
         trips->pop_front();
     }
     delete (trips);
 
-    // delete the employees list
+    // delete the availableDrivers list
     while (!availableDrivers->empty()) {
         delete (availableDrivers->front());
         availableDrivers->pop_front();
     }
     delete (availableDrivers);
 
-    // delete the employees list
+    // delete the listeners list
     while (!listeners->empty()) {
         delete (listeners->front());
         listeners->pop_front();
@@ -81,7 +85,7 @@ list<Driver *> *TaxiCenter::getAvailableDrivers() const {
 
 /**
  * @param id of the driver
- * @return the location of the driver with the id
+ * @return the location of the driver
  */
 Point *TaxiCenter::getDriverLocation(int id) {
     // search the driver at the employees list
@@ -107,7 +111,7 @@ Point *TaxiCenter::getDriverLocation(int id) {
 
 /**
  * @param id of the taxi
- * @return the location of the driver with the id
+ * @return the taxi
  */
 Taxi *TaxiCenter::getTaxiByID(int id) {
     for (std::list<Taxi *>::const_iterator iterator = cabs->begin(),
@@ -121,7 +125,7 @@ Taxi *TaxiCenter::getTaxiByID(int id) {
 
 /**
  * @param start point of the trip
- * @return the closest driver to that point, remove from the list
+ * @return the closest driver to that point, remove him from the list
  */
 Driver *TaxiCenter::getClosestDriver(Point *start) {
     std::list<Driver *> temp;
@@ -129,6 +133,7 @@ Driver *TaxiCenter::getClosestDriver(Point *start) {
         Driver *d = availableDrivers->front();
         availableDrivers->pop_front();
         if (*(d->getCab()->getLocation()->getP()) == *start) {
+            // return all drivers from the temp list to the available list
             while (!temp.empty()) {
                 availableDrivers->push_front((temp.front()));
                 temp.pop_front();
@@ -199,13 +204,14 @@ void TaxiCenter::setDriverToTi(TripInfo *ti) {
     // get the closest available driver, assign him with the trip info.
     Driver *d = getClosestDriver(ti->getStart());
     d->setTi(ti);
+    // send the trip info to the client
     socket->sendData("get_ready_for_trip_info");
     char buffer[1024];
     socket->receiveData(buffer, 1024);
     if (!strcmp(buffer, "waiting_for_trip")) {
         DataSender<TripInfo>::sendData(socket, ti);
     }
-    cout << "sent trip info from the taxi center" << endl;
+    // put the driver at the employees list
     employees->push_back(d);
 }
 
@@ -229,7 +235,7 @@ void TaxiCenter::moveAll() {
 /**
  * @param el is event listener to remove from the list;
  */
-void TaxiCenter::removeListener(EventListener *el) {
+/*void TaxiCenter::removeListener(EventListener *el) {
     // create temp list
     std::list<EventListener *> temp;
     while (!listeners->empty()) {
@@ -249,7 +255,7 @@ void TaxiCenter::removeListener(EventListener *el) {
             temp.push_front(e);
         }
     }
-}
+}*/
 
 
 /**

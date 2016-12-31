@@ -16,10 +16,9 @@ void Cab::setTariff(double t) {
  */
 void Cab::move(std::list<CoordinatedItem *> *road) {
     if (!road->empty()) {
-        CoordinatedItem * item = road->front();
+        CoordinatedItem *item = road->front();
         road->pop_front();
         int **coords = item->getCoordinates();
-        //delete (item);
         Point p(*(coords[0]), *(coords[1]));
         applyToPoint(&p);
         p.deleteCoords(coords);

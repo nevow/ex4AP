@@ -110,8 +110,14 @@ public:
         return !(otherTaxi == *this);
     }
 
+    /**
+     * serialize.
+     */
     friend class boost::serialization::access;
 
+    /**
+     * serialize function.
+     */
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version) {
         ar & tariff;
