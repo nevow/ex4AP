@@ -150,12 +150,11 @@ void TaxiCenter::addDriver(Driver *d) {
 }
 
 /**
- * search the earliest trip info in the trips list and return it.
- * @return the urgent tripInfo
+ * search the trip info in the trips list that start at the current time and return it.
+ * @return the tripInfo
  */
 TripInfo *TaxiCenter::getUrgentTi() {
     TripInfo *tripInfo = NULL;
-    TripInfo *temp = NULL;
     if (!(trips->empty())) {
         // search the earliest trip info and save a pointer to him
         for (std::list<TripInfo *>::const_iterator iterator = trips->begin(),
@@ -167,7 +166,7 @@ TripInfo *TaxiCenter::getUrgentTi() {
         }
         // move all the trips info to the back of the list, until it's match to the one we found.
         if (tripInfo != NULL) {
-            temp = trips->front();
+            TripInfo *temp = trips->front();
             trips->pop_front();
             while (temp != tripInfo) {
                 trips->push_back(temp);
