@@ -127,7 +127,6 @@ void Driver::setCab(Taxi *cab) {
 void Driver::moveOneStep() {
     if (ti) {
         cab->move(ti->getRoad());
-
     }
 }
 

@@ -219,17 +219,17 @@ void TaxiCenter::setDriverToTi(TripInfo *ti) {
  * iterate over all the drivers and tell them to move.
  */
 void TaxiCenter::moveAll() {
-    ++clock;
-    // iterate over all drivers tell them to move.
-    for (std::list<Driver *>::const_iterator iterator = employees->begin(),
-                 end = employees->end(); iterator != end; ++iterator) {
-        (*iterator)->moveOneStep();
-    }
     // tell all listener to notify.
     for (std::list<EventListener *>::const_iterator iterator = listeners->begin(),
                  end = listeners->end(); iterator != end; ++iterator) {
         (*iterator)->notify();
     }
+    // iterate over all drivers tell them to move.
+    for (std::list<Driver *>::const_iterator iterator = employees->begin(),
+                 end = employees->end(); iterator != end; ++iterator) {
+        (*iterator)->moveOneStep();
+    }
+    ++clock;
 }
 
 /**
