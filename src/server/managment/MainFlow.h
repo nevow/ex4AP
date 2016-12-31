@@ -25,6 +25,7 @@ public:
 
     ~MainFlow() {
         delete so;
+        delete sock;
     }
 
     void input();

@@ -41,10 +41,6 @@ public:
         }
         delete (passengers);
 
-        while (!road->empty()) {
-            delete (road->front());
-            road->pop_front();
-        }
         delete road;
         delete start;
         delete destination;
