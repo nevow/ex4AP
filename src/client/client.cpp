@@ -42,6 +42,7 @@ int main(int argc, char *argv[]) {
     driver->setCab(cab);                             // set the cab to the driver
 
     TripInfo *ti = NULL;
+    std::list<CoordinatedItem *> *tempRoad = NULL;
     // do while the server still sends orders different from the exit order "exit"
     do {
         cout << "sent waiting for orders" << endl;
@@ -52,6 +53,12 @@ int main(int argc, char *argv[]) {
 
             // deserialize the trip info from the server
             ti = DataSender<TripInfo>::receiveData(sock);
+            tempRoad = new list<CoordinatedItem *>;
+            std::list<CoordinatedItem *> *road = ti->getRoad();
+            for (std::list<CoordinatedItem *>::const_iterator iterator = road->begin(),
+                         end = road->end(); iterator != end; ++iterator) {
+                tempRoad->push_back(*(iterator));
+            }
             cout << "received trip" << endl;
             driver->setTi(ti);                     // set the driver with the trip info
         } else if (!strcmp(buffer, "9") && (ti != NULL)) {
@@ -60,6 +67,12 @@ int main(int argc, char *argv[]) {
 
             if (driver->getTi()->checkEnd(cab->getLocation()->getP())) { // if reached the end
                 delete ti;
+                while (!tempRoad->empty()) {
+                    delete tempRoad->front();
+                    tempRoad->pop_front();
+                }
+                delete tempRoad;
+                tempRoad = NULL;
                 driver->setTi(NULL);
                 ti = NULL;
             }
@@ -69,12 +82,12 @@ int main(int argc, char *argv[]) {
     } while (strcmp(buffer, "exit"));
 
     // delete all objects in the client
-    if (ti != NULL) {
-        std::list<CoordinatedItem *> *items = ti->getRoad();
-        while (!items->empty()) {
-            delete items->front();
-            items->pop_front();
+    if (tempRoad != NULL) {
+        while (!tempRoad->empty()) {
+            delete tempRoad->front();
+            tempRoad->pop_front();
         }
+        delete tempRoad;
     }
     delete cab;
     delete driver;
