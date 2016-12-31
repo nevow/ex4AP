@@ -69,7 +69,15 @@ int main(int argc, char *argv[]) {
     } while (strcmp(buffer, "exit"));
 
     // delete all objects in the client
+    if (ti != NULL) {
+        std::list<CoordinatedItem *> *items = ti->getRoad();
+        while (!items->empty()) {
+            delete items->front();
+            items->pop_front();
+        }
+    }
     delete cab;
     delete driver;
+    delete sock;
     return 0;
 }
