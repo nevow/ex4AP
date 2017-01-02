@@ -96,7 +96,7 @@ void Driver::setStatus(const MartialStatues &status) {
 }
 
 /**
- * @param experience of the driveer to set.
+ * @param experience of the driver to set.
  */
 void Driver::setExperience(int experience) {
     Driver::experience = experience;
