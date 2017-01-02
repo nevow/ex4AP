@@ -61,7 +61,6 @@ int main(int argc, char *argv[]) {
             driver->setTi(ti);                     // set the driver with the trip info
         } else if (!strcmp(buffer, "9") && (ti != NULL)) {
             driver->moveOneStep();                 // move the driver one step
-            cout << *(driver->getCab()->getLocation()->getP());
 
             if (driver->getTi()->checkEnd(cab->getLocation()->getP())) { // if reached the end
                 delete ti;                         // delete the trip info

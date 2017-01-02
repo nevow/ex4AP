@@ -132,7 +132,6 @@ void MainFlow::input() {
                 // clock time - move one step
             case 9: {
                 sock->sendData("9");
-                cout << "sent 9" << endl;
                 so->moveAll();
                 break;
             }
