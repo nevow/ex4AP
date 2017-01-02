@@ -42,10 +42,10 @@ ProperInput.o: src/server/managment/ProperInput.cpp src/server/managment/ProperI
 SystemOperations.o: src/server/managment/SystemOperations.cpp src/server/managment/SystemOperations.h
 	g++ -std=c++0x -c src/server/managment/SystemOperations.cpp
 
-Socket.o: src/server/sockets/Socket.cpp
+Socket.o: src/server/sockets/Socket.cpp src/server/sockets/Socket.h
 	g++ -std=c++0x -c src/server/sockets/Socket.cpp
 
-Udp.o: src/server/sockets/Udp.cpp
+Udp.o: src/server/sockets/Udp.cpp src/server/sockets/Udp.h
 	g++ -std=c++0x -c src/server/sockets/Udp.cpp
 
 Cab.o: src/server/taxi/Cab.cpp src/server/taxi/Cab.h
