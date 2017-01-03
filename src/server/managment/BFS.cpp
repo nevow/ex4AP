@@ -75,5 +75,6 @@ list<CoordinatedItem *> *BFS::getTrip(CoordinatedItem *dest) {
         }
     }
     road->pop_front();
+    road->front()->setParent(NULL);
     return road;
 }
